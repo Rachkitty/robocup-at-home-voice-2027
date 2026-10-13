@@ -1,0 +1,932 @@
+--- a/.gitignore
++++ b/.gitignore
+@@ -45,3 +45,28 @@
+ .venv
+ venv/
+ ENV/
++
++# Models supplied privately by users
++*.onnx
++models/private/
++# Local reports and distributions
++validation/
++*.tar.gz
++
++# Verification and development caches
++.pytest_cache/
++.colcon/
++.coverage
++htmlcov/
++*.log
++
++# Private settings, voice configs, and recorded audio
++.env.*
++!.env.example
++*.onnx.json
++recordings/
++*.wav
++*.mp3
++*.flac
++*.db3
++*.mcap
+--- a/src/robocup_asr/package.xml
++++ b/src/robocup_asr/package.xml
+@@ -1,18 +1,15 @@
+ <?xml version="1.0"?>
+-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+ <package format="3">
+   <name>robocup_asr</name>
+-  <version>0.0.0</version>
+-  <description>TODO: Package description</description>
+-  <maintainer email="raffiki@todo.todo">raffiki</maintainer>
+-  <license>TODO: License declaration</license>
+-
+-  <test_depend>ament_copyright</test_depend>
+-  <test_depend>ament_flake8</test_depend>
+-  <test_depend>ament_pep257</test_depend>
++  <version>0.1.0</version>
++  <description>Offline English ASR using Vosk.</description>
++  <maintainer email="maintainers@example.invalid">RoboCup voice maintainers</maintainer>
++  <license>LicenseRef-Project-License-Pending</license>
++  <buildtool_depend>python3-setuptools</buildtool_depend>
++  <exec_depend>ament_index_python</exec_depend>
++  <exec_depend>rclpy</exec_depend>
++  <exec_depend>std_msgs</exec_depend>
++  <exec_depend>python3-numpy</exec_depend>
+   <test_depend>python3-pytest</test_depend>
+-
+-  <export>
+-    <build_type>ament_python</build_type>
+-  </export>
++  <export><build_type>ament_python</build_type></export>
+ </package>
+--- a/src/robocup_asr/robocup_asr/vosk_asr_node.py
++++ b/src/robocup_asr/robocup_asr/vosk_asr_node.py
+@@ -10,6 +10,8 @@
+ import numpy as np
+ import threading
+ 
++from pathlib import Path
++from ament_index_python.packages import get_package_share_directory
+ from vosk import Model, KaldiRecognizer
+ 
+ 
+@@ -58,7 +60,7 @@
+             10
+         )
+ 
+-        self.ambient_noise_std = 100.0 
++        self.ambient_noise_std = 100.0
+         self.is_calibrated = False
+         self.calibration_duration = 3.0
+         self.start_time = self.get_clock().now().nanoseconds
+@@ -69,8 +71,13 @@
+         self.q = queue.Queue()
+         self.lock = threading.Lock()
+ 
+-        model_path = "/home/raffiki/ros2_ws/src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15"
+-        self.model = Model(model_path)
++        default_model = str(Path(get_package_share_directory('robocup_asr')).joinpath(
++            'vosk_models', 'vosk-model-small-en-us-0.15'))
++        self.declare_parameter('model_path', default_model)
++        model_path = Path(self.get_parameter('model_path').value).expanduser()
++        if not (model_path / 'am' / 'final.mdl').is_file():
++            raise FileNotFoundError(f'Vosk model is incomplete or missing: {model_path}')
++        self.model = Model(str(model_path))
+ 
+         self.set_recognizer()
+ 
+@@ -179,15 +186,11 @@
+         except Exception as e:
+             self.get_logger().error(f"Error al parsear gramática: {e}")
+ 
+-
+-
+-    # AUDIO CALLBACK
+     def audio_callback(self, indata, frames, time, status):
+-        
+         # Ignorar si está apagado o en periodo de anti-eco temporal
+         if not self.is_listening:
+             return
+-            
++
+         now = self.get_clock().now().nanoseconds
+         if now < self.ignore_until:
+             return
+@@ -210,7 +213,7 @@
+             while rclpy.ok():
+ 
+                 # Si no está escuchando, esperar de forma segura y evitar bloquear 100% de CPU
+-                # (El queue.get soluciona esto porque bloquea esperando data, 
++                # (El queue.get soluciona esto porque bloquea esperando data,
+                 # pero nos aseguramos de usar un timeout)
+                 try:
+                     data = self.q.get(timeout=0.1)
+@@ -231,7 +234,7 @@
+                     self.ambient_noise_std = self.ambient_noise_std * 0.8 + volume * 0.2
+                     if elapsed_s > self.calibration_duration:
+                         self.is_calibrated = True
+-                        self.get_logger().info(f" Calibración terminada.")
++                        self.get_logger().info(" Calibración terminada.")
+                     continue
+ 
+                 if volume < self.ambient_noise_std * 1.5:
+@@ -240,7 +243,7 @@
+                 self.max_vol_phrase = max(self.max_vol_phrase, volume)
+ 
+                 if now_ns % 2000000000 < 100000000:
+-                   self.get_logger().info(f"[NOISE FLOOR] {int(self.ambient_noise_std)} | [ACTUAL] {volume}")
++                    self.get_logger().info(f"[NOISE FLOOR] {int(self.ambient_noise_std)} | [ACTUAL] {volume}")
+ 
+                 # Recognition
+                 with self.lock:
+--- a/src/robocup_asr/setup.py
++++ b/src/robocup_asr/setup.py
+@@ -1,30 +1,34 @@
++"""Package the reconstructed 2026 robocup_asr node."""
++import os
+ from setuptools import find_packages, setup
+ 
+ package_name = 'robocup_asr'
+ 
++
++def model_data_files():
++    """Install every Vosk asset while preserving its relative directory."""
++    entries = []
++    for parent, _, names in os.walk('vosk_models'):
++        if names:
++            entries.append((os.path.join('share', package_name, parent),
++                            [os.path.join(parent, name) for name in names]))
++    return entries
++
++
+ setup(
+     name=package_name,
+-    version='0.0.0',
++    version='0.1.0',
+     packages=find_packages(exclude=['test']),
+     data_files=[
+-        ('share/ament_index/resource_index/packages',
+-            ['resource/' + package_name]),
++        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+         ('share/' + package_name, ['package.xml']),
+-    ],
+-    install_requires=['setuptools'],
+-    zip_safe=True,
+-    maintainer='raffiki',
+-    maintainer_email='raffiki@todo.todo',
+-    description='TODO: Package description',
+-    license='TODO: License declaration',
+-    extras_require={
+-        'test': [
+-            'pytest',
+-        ],
+-    },
+-    entry_points={
+-    'console_scripts': [
+-        'vosk_asr_node = robocup_asr.vosk_asr_node:main',
+-    ],
+-},
++    ] + model_data_files(),
++    install_requires=['setuptools', 'numpy==2.2.6', 'sounddevice==0.5.6', 'vosk==0.3.45'],
++    zip_safe=False,
++    maintainer='RoboCup voice maintainers',
++    maintainer_email='maintainers@example.invalid',
++    description='Offline English ASR using Vosk.',
++    license='LicenseRef-Project-License-Pending',
++    extras_require={'test': ['pytest>=8,<9']},
++    entry_points={'console_scripts': ['vosk_asr_node = robocup_asr.vosk_asr_node:main']},
+ )
+--- a/src/robocup_asr/test/test_copyright.py
++++ b/src/robocup_asr/test/test_copyright.py
+@@ -1,25 +0,0 @@
+-# Copyright 2015 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_copyright.main import main
+-import pytest
+-
+-
+-# Remove the `skip` decorator once the source file(s) have a copyright header
+-@pytest.mark.skip(reason='No copyright header has been placed in the generated source file.')
+-@pytest.mark.copyright
+-@pytest.mark.linter
+-def test_copyright():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found errors'
+--- a/src/robocup_asr/test/test_flake8.py
++++ b/src/robocup_asr/test/test_flake8.py
+@@ -1,25 +0,0 @@
+-# Copyright 2017 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_flake8.main import main_with_errors
+-import pytest
+-
+-
+-@pytest.mark.flake8
+-@pytest.mark.linter
+-def test_flake8():
+-    rc, errors = main_with_errors(argv=[])
+-    assert rc == 0, \
+-        'Found %d code style errors / warnings:\n' % len(errors) + \
+-        '\n'.join(errors)
+--- a/src/robocup_asr/test/test_pep257.py
++++ b/src/robocup_asr/test/test_pep257.py
+@@ -1,23 +0,0 @@
+-# Copyright 2015 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_pep257.main import main
+-import pytest
+-
+-
+-@pytest.mark.linter
+-@pytest.mark.pep257
+-def test_pep257():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found code style errors / warnings'
+--- a/src/robocup_bringup/launch/robot_launch.py
++++ b/src/robocup_bringup/launch/robot_launch.py
+@@ -1,36 +1,26 @@
+-import os
+-
++"""Launch the historical four-node flow with portable model parameters."""
+ from launch import LaunchDescription
++from launch.actions import DeclareLaunchArgument
++from launch.conditions import IfCondition
++from launch.substitutions import LaunchConfiguration
+ from launch_ros.actions import Node
+ 
++
+ def generate_launch_description():
++    """Allow text-only DDS checks without importing audio nodes or models."""
+     return LaunchDescription([
+-        # Nodo ASR (Vosk)
+-        Node(
+-            package='robocup_asr',
+-            executable='vosk_asr_node',
+-            name='vosk_asr_node',
+-            output='screen'
+-        ),
+-        # Nodo TTS (Piper)
+-        Node(
+-            package='robocup_tts',
+-            executable='tts_node',
+-            name='tts_node',
+-            output='screen'
+-        ),
+-        # Nodo principal de Voice 
+-        Node(
+-            package='robocup_voice',
+-            executable='voice_node',
+-            name='voice_node',
+-            output='screen'
+-        ),
+-        # Nodo speech One
+-        Node(
+-            package='robocup_speech_one',
+-            executable='speech_one',
+-            name='speech_one',
+-            output='screen'
+-        )
++        DeclareLaunchArgument('audio', default_value='true',
++                              description='Start Vosk and Piper audio nodes'),
++        DeclareLaunchArgument('tts_model_path', default_value='',
++                              description='User-provided authorized Piper ONNX voice'),
++        Node(package='robocup_asr', executable='vosk_asr_node',
++             name='vosk_asr_node', output='screen',
++             condition=IfCondition(LaunchConfiguration('audio'))),
++        Node(package='robocup_tts', executable='tts_node', name='tts_node',
++             output='screen', condition=IfCondition(LaunchConfiguration('audio')),
++             parameters=[{'model_path': LaunchConfiguration('tts_model_path')}]),
++        Node(package='robocup_voice', executable='voice_node',
++             name='voice_node', output='screen'),
++        Node(package='robocup_speech_one', executable='speech_one',
++             name='speech_one', output='screen'),
+     ])
+--- a/src/robocup_bringup/package.xml
++++ b/src/robocup_bringup/package.xml
+@@ -1,22 +1,18 @@
+ <?xml version="1.0"?>
+-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+ <package format="3">
+   <name>robocup_bringup</name>
+-  <version>0.0.0</version>
+-  <description>Launch package for all RoboCup voice nodes</description>
+-  <maintainer email="raffiki@todo.todo">raffiki</maintainer>
+-  <license>TODO: License declaration</license>
+-
++  <version>0.1.0</version>
++  <description>Launch the reconstructed 2026 voice stack.</description>
++  <maintainer email="maintainers@example.invalid">RoboCup voice maintainers</maintainer>
++  <license>LicenseRef-Project-License-Pending</license>
++  <buildtool_depend>python3-setuptools</buildtool_depend>
++  <exec_depend>ament_index_python</exec_depend>
++  <exec_depend>launch</exec_depend>
++  <exec_depend>launch_ros</exec_depend>
+   <exec_depend>robocup_asr</exec_depend>
+   <exec_depend>robocup_tts</exec_depend>
+   <exec_depend>robocup_voice</exec_depend>
+-
+-  <test_depend>ament_copyright</test_depend>
+-  <test_depend>ament_flake8</test_depend>
+-  <test_depend>ament_pep257</test_depend>
++  <exec_depend>robocup_speech_one</exec_depend>
+   <test_depend>python3-pytest</test_depend>
+-
+-  <export>
+-    <build_type>ament_python</build_type>
+-  </export>
++  <export><build_type>ament_python</build_type></export>
+ </package>
+--- a/src/robocup_bringup/setup.py
++++ b/src/robocup_bringup/setup.py
+@@ -1,3 +1,4 @@
++"""Package the reconstructed 2026 robocup_bringup node."""
+ import os
+ from glob import glob
+ from setuptools import find_packages, setup
+@@ -6,28 +7,18 @@
+ 
+ setup(
+     name=package_name,
+-    version='0.0.0',
++    version='0.1.0',
+     packages=find_packages(exclude=['test']),
+     data_files=[
+-        ('share/ament_index/resource_index/packages',
+-            ['resource/' + package_name]),
++        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+         ('share/' + package_name, ['package.xml']),
+-        # Instalar todos los launch files
+-        (os.path.join('share', package_name, 'launch'),
+-            glob('launch/*.py')),
+-    ],
++    ] + [(os.path.join('share', package_name, 'launch'), glob('launch/*.py'))],
+     install_requires=['setuptools'],
+-    zip_safe=True,
+-    maintainer='raffiki',
+-    maintainer_email='raffiki@todo.todo',
+-    description='Launch package for all RoboCup voice nodes',
+-    license='TODO: License declaration',
+-    extras_require={
+-        'test': [
+-            'pytest',
+-        ],
+-    },
+-    entry_points={
+-        'console_scripts': [],
+-    },
++    zip_safe=False,
++    maintainer='RoboCup voice maintainers',
++    maintainer_email='maintainers@example.invalid',
++    description='Launch the reconstructed 2026 voice stack.',
++    license='LicenseRef-Project-License-Pending',
++    extras_require={'test': ['pytest>=8,<9']},
++    entry_points={'console_scripts': []},
+ )
+--- a/src/robocup_speech_one/package.xml
++++ b/src/robocup_speech_one/package.xml
+@@ -1,18 +1,13 @@
+ <?xml version="1.0"?>
+-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+ <package format="3">
+   <name>robocup_speech_one</name>
+   <version>0.1.0</version>
+-  <description>Bridge node: voice command to navigation and object recognition</description>
+-  <maintainer email="raffiki@todo.todo">raffiki</maintainer>
+-  <license>TODO</license>
++  <description>Historical bridge from voice commands to navigation and object topics.</description>
++  <maintainer email="maintainers@example.invalid">RoboCup voice maintainers</maintainer>
++  <license>LicenseRef-Project-License-Pending</license>
++  <buildtool_depend>python3-setuptools</buildtool_depend>
+   <exec_depend>rclpy</exec_depend>
+   <exec_depend>std_msgs</exec_depend>
+-  <test_depend>ament_copyright</test_depend>
+-  <test_depend>ament_flake8</test_depend>
+-  <test_depend>ament_pep257</test_depend>
+-  <test_depend>pytest</test_depend>
+-  <export>
+-    <build_type>ament_python</build_type>
+-  </export>
++  <test_depend>python3-pytest</test_depend>
++  <export><build_type>ament_python</build_type></export>
+ </package>
+--- a/src/robocup_speech_one/robocup_speech_one/speech_one.py
++++ b/src/robocup_speech_one/robocup_speech_one/speech_one.py
+@@ -89,8 +89,13 @@
+             return
+ 
+         # --- Extracción de campos ---
+-        obj = command.get('object', '').strip()
+-        loc = command.get('location', '').strip()
++        obj = command.get('object', '')
++        loc = command.get('location', '')
++        if not isinstance(obj, str) or not isinstance(loc, str):
++            self.get_logger().error('Command object and location must be strings.')
++            return
++        obj = obj.strip()
++        loc = loc.strip()
+ 
+         if not obj:
+             self.get_logger().warn("[speech_one] ⚠️  Campo 'object' vacío o ausente.")
+@@ -119,11 +124,11 @@
+             f"[speech_one] ✅ Despachado: OBJETO='{obj}'  LUGAR='{loc}'"
+         )
+         print(
+-            f"\n{'─'*50}\n"
++            f"\n{'─' * 50}\n"
+             f"  [speech_one]  NUEVO COMANDO\n"
+             f"  Objeto   → {obj}\n"
+             f"  Lugar    → {loc}\n"
+-            f"{'─'*50}\n"
++            f"{'─' * 50}\n"
+         )
+ 
+ 
+--- a/src/robocup_speech_one/setup.py
++++ b/src/robocup_speech_one/setup.py
+@@ -1,3 +1,4 @@
++"""Package the reconstructed 2026 robocup_speech_one node."""
+ from setuptools import find_packages, setup
+ 
+ package_name = 'robocup_speech_one'
+@@ -7,22 +8,15 @@
+     version='0.1.0',
+     packages=find_packages(exclude=['test']),
+     data_files=[
+-        ('share/ament_index/resource_index/packages',
+-            ['resource/' + package_name]),
++        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+         ('share/' + package_name, ['package.xml']),
+     ],
+     install_requires=['setuptools'],
+-    zip_safe=True,
+-    maintainer='raffiki',
+-    maintainer_email='raffiki@todo.todo',
+-    description='Bridge node: voice command → navigation + object recognition',
+-    license='TODO: License declaration',
+-    extras_require={
+-        'test': ['pytest'],
+-    },
+-    entry_points={
+-        'console_scripts': [
+-            'speech_one = robocup_speech_one.speech_one:main',
+-        ],
+-    },
++    zip_safe=False,
++    maintainer='RoboCup voice maintainers',
++    maintainer_email='maintainers@example.invalid',
++    description='Historical bridge from voice commands to navigation and object topics.',
++    license='LicenseRef-Project-License-Pending',
++    extras_require={'test': ['pytest>=8,<9']},
++    entry_points={'console_scripts': ['speech_one = robocup_speech_one.speech_one:main']},
+ )
+--- a/src/robocup_speech_one/test/test_copyright.py
++++ b/src/robocup_speech_one/test/test_copyright.py
+@@ -1,9 +0,0 @@
+-from ament_copyright.main import main
+-import pytest
+-
+-@pytest.mark.skip(reason='No copyright header has been placed in the generated source file.')
+-@pytest.mark.copyright
+-@pytest.mark.linter
+-def test_copyright():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found errors'
+--- a/src/robocup_speech_one/test/test_flake8.py
++++ b/src/robocup_speech_one/test/test_flake8.py
+@@ -1,10 +0,0 @@
+-from ament_flake8.main import main_with_errors
+-import pytest
+-
+-@pytest.mark.flake8
+-@pytest.mark.linter
+-def test_flake8():
+-    rc, errors = main_with_errors(argv=[])
+-    assert rc == 0, \
+-        'Found %d code style errors / warnings:\n' % len(errors) + \
+-        '\n'.join(errors)
+--- a/src/robocup_speech_one/test/test_pep257.py
++++ b/src/robocup_speech_one/test/test_pep257.py
+@@ -1,8 +0,0 @@
+-from ament_pep257.main import main
+-import pytest
+-
+-@pytest.mark.linter
+-@pytest.mark.pep257
+-def test_pep257():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found code style errors / warnings'
+--- a/src/robocup_tts/package.xml
++++ b/src/robocup_tts/package.xml
+@@ -1,18 +1,14 @@
+ <?xml version="1.0"?>
+-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+ <package format="3">
+   <name>robocup_tts</name>
+-  <version>0.0.0</version>
+-  <description>TODO: Package description</description>
+-  <maintainer email="gauseineri@todo.todo">gauseineri</maintainer>
+-  <license>TODO: License declaration</license>
+-
+-  <test_depend>ament_copyright</test_depend>
+-  <test_depend>ament_flake8</test_depend>
+-  <test_depend>ament_pep257</test_depend>
++  <version>0.1.0</version>
++  <description>Offline speech synthesis using a user-provided Piper voice.</description>
++  <maintainer email="maintainers@example.invalid">RoboCup voice maintainers</maintainer>
++  <license>LicenseRef-Project-License-Pending</license>
++  <buildtool_depend>python3-setuptools</buildtool_depend>
++  <exec_depend>rclpy</exec_depend>
++  <exec_depend>std_msgs</exec_depend>
++  <exec_depend>python3-numpy</exec_depend>
+   <test_depend>python3-pytest</test_depend>
+-
+-  <export>
+-    <build_type>ament_python</build_type>
+-  </export>
++  <export><build_type>ament_python</build_type></export>
+ </package>
+--- a/src/robocup_tts/robocup_tts/tts_node.py
++++ b/src/robocup_tts/robocup_tts/tts_node.py
+@@ -8,6 +8,7 @@
+ import numpy as np
+ import sounddevice as sd
+ 
++from pathlib import Path
+ from piper import PiperVoice
+ 
+ 
+@@ -35,7 +36,16 @@
+         # sd.default.device = 0
+ 
+         # Cargar modelo Piper
+-        self.model_path = "/home/raffiki/ros2_ws/src/robocup_tts/piper-models/en_US-lessac-medium.onnx"
++        self.declare_parameter('model_path', '')
++        configured_path = self.get_parameter('model_path').value
++        if not configured_path:
++            raise FileNotFoundError(
++                'Piper voice weights are intentionally not bundled. Set model_path '
++                'to an ONNX voice you are authorized to use, with its .onnx.json file.')
++        model_path = Path(configured_path).expanduser()
++        if not model_path.is_file() or not Path(str(model_path) + '.json').is_file():
++            raise FileNotFoundError('Piper requires an existing ONNX file and .onnx.json')
++        self.model_path = str(model_path)
+ 
+         self.get_logger().info("Loading Piper model...")
+         self.voice = PiperVoice.load(self.model_path)
+@@ -68,14 +78,14 @@
+ 
+         # PAUSAR ASR
+         self.asr_control_pub.publish(Bool(data=False))
+-        
++
+         # Darle tiempo al nodo ASR de recibir el mensaje y pausarse antes de hacer ruido
+         time.sleep(0.1)
+ 
+         try:
+             # Reproducir cada chunk al generarse.
+             with sd.OutputStream(
+-                samplerate=22050,
++                samplerate=self.voice.config.sample_rate,
+                 channels=1,
+                 dtype='int16',
+                 latency='high'
+--- a/src/robocup_tts/setup.py
++++ b/src/robocup_tts/setup.py
+@@ -1,31 +1,22 @@
+-import os
+-from glob import glob
++"""Package the reconstructed 2026 robocup_tts node."""
+ from setuptools import find_packages, setup
+ 
+ package_name = 'robocup_tts'
+ 
+ setup(
+     name=package_name,
+-    version='0.0.0',
+-    packages=find_packages(),
++    version='0.1.0',
++    packages=find_packages(exclude=['test']),
+     data_files=[
+         ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+         ('share/' + package_name, ['package.xml']),
+     ],
+-    install_requires=['setuptools'],
+-    zip_safe=True,
+-    maintainer='gauseineri',
+-    maintainer_email='gauseineri@todo.todo',
+-    description='TODO: Package description',
+-    license='TODO: License declaration',
+-    extras_require={
+-        'test': [
+-            'pytest',
+-        ],
+-    },
+-    entry_points={
+-        'console_scripts': [
+-		'tts_node = robocup_tts.tts_node:main',
+-        ],
+-    },
++    install_requires=['setuptools', 'numpy==2.2.6', 'piper-tts==1.4.2', 'sounddevice==0.5.6'],
++    zip_safe=False,
++    maintainer='RoboCup voice maintainers',
++    maintainer_email='maintainers@example.invalid',
++    description='Offline speech synthesis using a user-provided Piper voice.',
++    license='LicenseRef-Project-License-Pending',
++    extras_require={'test': ['pytest>=8,<9']},
++    entry_points={'console_scripts': ['tts_node = robocup_tts.tts_node:main']},
+ )
+--- a/src/robocup_tts/test/test_copyright.py
++++ b/src/robocup_tts/test/test_copyright.py
+@@ -1,25 +0,0 @@
+-# Copyright 2015 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_copyright.main import main
+-import pytest
+-
+-
+-# Remove the `skip` decorator once the source file(s) have a copyright header
+-@pytest.mark.skip(reason='No copyright header has been placed in the generated source file.')
+-@pytest.mark.copyright
+-@pytest.mark.linter
+-def test_copyright():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found errors'
+--- a/src/robocup_tts/test/test_flake8.py
++++ b/src/robocup_tts/test/test_flake8.py
+@@ -1,25 +0,0 @@
+-# Copyright 2017 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_flake8.main import main_with_errors
+-import pytest
+-
+-
+-@pytest.mark.flake8
+-@pytest.mark.linter
+-def test_flake8():
+-    rc, errors = main_with_errors(argv=[])
+-    assert rc == 0, \
+-        'Found %d code style errors / warnings:\n' % len(errors) + \
+-        '\n'.join(errors)
+--- a/src/robocup_tts/test/test_pep257.py
++++ b/src/robocup_tts/test/test_pep257.py
+@@ -1,23 +0,0 @@
+-# Copyright 2015 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_pep257.main import main
+-import pytest
+-
+-
+-@pytest.mark.linter
+-@pytest.mark.pep257
+-def test_pep257():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found code style errors / warnings'
+--- a/src/robocup_voice/package.xml
++++ b/src/robocup_voice/package.xml
+@@ -1,18 +1,15 @@
+ <?xml version="1.0"?>
+-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+ <package format="3">
+   <name>robocup_voice</name>
+-  <version>0.0.0</version>
+-  <description>TODO: Package description</description>
+-  <maintainer email="raffiki@todo.todo">raffiki</maintainer>
+-  <license>TODO: License declaration</license>
+-
+-  <test_depend>ament_copyright</test_depend>
+-  <test_depend>ament_flake8</test_depend>
+-  <test_depend>ament_pep257</test_depend>
++  <version>0.1.0</version>
++  <description>Historical keyword dialogue and confirmation state machine.</description>
++  <maintainer email="maintainers@example.invalid">RoboCup voice maintainers</maintainer>
++  <license>LicenseRef-Project-License-Pending</license>
++  <buildtool_depend>python3-setuptools</buildtool_depend>
++  <exec_depend>ament_index_python</exec_depend>
++  <exec_depend>rclpy</exec_depend>
++  <exec_depend>std_msgs</exec_depend>
++  <exec_depend>python3-yaml</exec_depend>
+   <test_depend>python3-pytest</test_depend>
+-
+-  <export>
+-    <build_type>ament_python</build_type>
+-  </export>
++  <export><build_type>ament_python</build_type></export>
+ </package>
+--- a/src/robocup_voice/robocup_voice/voice_node.py
++++ b/src/robocup_voice/robocup_voice/voice_node.py
+@@ -253,7 +253,7 @@
+             if re.search(r'\b' + re.escape(obj) + r'\b', text, re.IGNORECASE):
+                 found_object = obj
+                 break
+-                
++
+         for loc in sorted_locations:
+             if re.search(r'\b' + re.escape(loc) + r'\b', text, re.IGNORECASE):
+                 found_location = loc
+--- a/src/robocup_voice/setup.py
++++ b/src/robocup_voice/setup.py
+@@ -1,36 +1,24 @@
+-from setuptools import find_packages, setup
++"""Package the reconstructed 2026 robocup_voice node."""
+ import os
+ from glob import glob
++from setuptools import find_packages, setup
+ 
+ package_name = 'robocup_voice'
+ 
+ setup(
+     name=package_name,
+-    version='0.0.0',
++    version='0.1.0',
+     packages=find_packages(exclude=['test']),
+     data_files=[
+-        ('share/ament_index/resource_index/packages',
+-            ['resource/' + package_name]),
+-
++        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
+         ('share/' + package_name, ['package.xml']),
+-
+-        (os.path.join('share', package_name, 'config'),
+-            glob('config/*.yaml')),
+-    ],
+-    install_requires=['setuptools'],
+-    zip_safe=True,
+-    maintainer='raffiki',
+-    maintainer_email='raffiki@todo.todo',
+-    description='Voice module for RoboCup',
+-    license='TODO: License declaration',
+-    extras_require={
+-        'test': [
+-            'pytest',
+-        ],
+-    },
+-    entry_points={
+-        'console_scripts': [
+-            'voice_node = robocup_voice.voice_node:main',
+-        ],
+-    },
++    ] + [(os.path.join('share', package_name, 'config'), glob('config/*.yaml'))],
++    install_requires=['setuptools', 'PyYAML==6.0.3'],
++    zip_safe=False,
++    maintainer='RoboCup voice maintainers',
++    maintainer_email='maintainers@example.invalid',
++    description='Historical keyword dialogue and confirmation state machine.',
++    license='LicenseRef-Project-License-Pending',
++    extras_require={'test': ['pytest>=8,<9']},
++    entry_points={'console_scripts': ['voice_node = robocup_voice.voice_node:main']},
+ )
+--- a/src/robocup_voice/test/test_copyright.py
++++ b/src/robocup_voice/test/test_copyright.py
+@@ -1,25 +0,0 @@
+-# Copyright 2015 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_copyright.main import main
+-import pytest
+-
+-
+-# Remove the `skip` decorator once the source file(s) have a copyright header
+-@pytest.mark.skip(reason='No copyright header has been placed in the generated source file.')
+-@pytest.mark.copyright
+-@pytest.mark.linter
+-def test_copyright():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found errors'
+--- a/src/robocup_voice/test/test_flake8.py
++++ b/src/robocup_voice/test/test_flake8.py
+@@ -1,25 +0,0 @@
+-# Copyright 2017 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_flake8.main import main_with_errors
+-import pytest
+-
+-
+-@pytest.mark.flake8
+-@pytest.mark.linter
+-def test_flake8():
+-    rc, errors = main_with_errors(argv=[])
+-    assert rc == 0, \
+-        'Found %d code style errors / warnings:\n' % len(errors) + \
+-        '\n'.join(errors)
+--- a/src/robocup_voice/test/test_pep257.py
++++ b/src/robocup_voice/test/test_pep257.py
+@@ -1,23 +0,0 @@
+-# Copyright 2015 Open Source Robotics Foundation, Inc.
+-#
+-# Licensed under the Apache License, Version 2.0 (the "License");
+-# you may not use this file except in compliance with the License.
+-# You may obtain a copy of the License at
+-#
+-#     http://www.apache.org/licenses/LICENSE-2.0
+-#
+-# Unless required by applicable law or agreed to in writing, software
+-# distributed under the License is distributed on an "AS IS" BASIS,
+-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-# See the License for the specific language governing permissions and
+-# limitations under the License.
+-
+-from ament_pep257.main import main
+-import pytest
+-
+-
+-@pytest.mark.linter
+-@pytest.mark.pep257
+-def test_pep257():
+-    rc = main(argv=['.', 'test'])
+-    assert rc == 0, 'Found code style errors / warnings'

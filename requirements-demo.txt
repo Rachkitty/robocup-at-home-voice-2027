@@ -1,0 +1,4 @@
+# Only dependencies needed by the simulated demo; no ROS/audio engines.
+numpy==2.2.6
+PyYAML==6.0.3
+pytest==8.4.2

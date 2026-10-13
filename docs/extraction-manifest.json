@@ -1,0 +1,426 @@
+{
+  "source_commit": "9952f30a2775cede3d69c0dc34962ff609addead",
+  "archive_pathspecs": [
+    ".gitignore",
+    "src/robocup_asr",
+    "src/robocup_tts",
+    "src/robocup_voice",
+    "src/robocup_bringup",
+    "src/robocup_speech_one"
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "192acb6f05665ef5b16db655749be126e44dfbde3ce728b76c3a409196354fdd",
+      "size": 331,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/package.xml",
+      "sha256": "36f3abf4f21ab2ac8cea5b51c26d05cf94a134a0e0340d3cb1f5a9a97c542fdd",
+      "size": 631,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/resource/robocup_asr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/robocup_asr/__init__.py",
+      "sha256": "5de59b55e0cd6fd782e68c45363f6333d5923ab51147de99670fc1153497d022",
+      "size": 9,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/robocup_asr/vosk_asr_node.py",
+      "sha256": "d3eb68420eeffcc14d03bc1f2729f82a8b21ae2dfe870e309c657e8370d2c526",
+      "size": 9813,
+      "mode": "0o775",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/setup.cfg",
+      "sha256": "c8cba2775bed3349a1d5395f10bddfb43f38a623e6c3352d0a601cfc0d49b8db",
+      "size": 91,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/setup.py",
+      "sha256": "5058ba06789416c0d2b9fc32c1b0449548d015c4378c257bec95c193cd402dff",
+      "size": 748,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/test/test_copyright.py",
+      "sha256": "ea71bbbc6247b5c14d176ed09f39ee274d563cc9b2ec355828ea451ceff31757",
+      "size": 962,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/test/test_flake8.py",
+      "sha256": "37a813a0507f0ce51a2d0b57312d2cc078a0307a3ca85580ea801b0d2f9755d2",
+      "size": 884,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/test/test_pep257.py",
+      "sha256": "e8b88d49ee296987b1b40069f81019b5fa09b1aa1bfee9a1faae45bb5cf53eda",
+      "size": 803,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/README",
+      "sha256": "c0cf286e4f7783306c5f6469b37db69228fb16803b03cae661edb2d7bba64ebb",
+      "size": 199,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/am/final.mdl",
+      "sha256": "75370a0137f9daf8f469dedd7daa4513ae7a621f03240c6e512e2b50b656a7b6",
+      "size": 15962575,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/conf/mfcc.conf",
+      "sha256": "1e2228006d01d805ad1c267fee9f79709ca87ac51bd82b0e3f5c69ba543f0fc4",
+      "size": 131,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/conf/model.conf",
+      "sha256": "8f14cb1eeb07c762c371db648c6be688d347236155ca0f64fb13b6567a8ce81f",
+      "size": 290,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/Gr.fst",
+      "sha256": "023c8b7e30704a9e37765c635c252e608a02f361235bf94abdcf2a5225d85b20",
+      "size": 24013795,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/HCLr.fst",
+      "sha256": "5caafba3081e1646545ac6bff0dd7a318e53dcbdc86f237909ce1d2ac1293d34",
+      "size": 22416994,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/disambig_tid.int",
+      "sha256": "9ad87cc166d0998f08f758f47a6223a120dfffcbee805c4849c3aa5e6bb3c0fc",
+      "size": 102,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/phones/word_boundary.int",
+      "sha256": "da199d9c991e0e84681ddbb34627b915b26302d50a8fdaa23c51e2bc3a50b5c3",
+      "size": 1761,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.dubm",
+      "sha256": "8c5d7dd69d2122313baaf19f61f35dd3fa18b70c62ac0687e311e1c46e6daca7",
+      "size": 168048,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.ie",
+      "sha256": "3f37faf90c375b9e4740b569398b5829ed9cc07d19be6d441f72c3b71d7efcc6",
+      "size": 8288887,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.mat",
+      "sha256": "ddd83586dc5f928cda8738b922c85ffe38fc789cb5f9151a712ca12f37265382",
+      "size": 44975,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/global_cmvn.stats",
+      "sha256": "33be09afcc80059847a275c3d043b51f1ab954c7c2438ddbbf4745e8ba144ff9",
+      "size": 1080,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/online_cmvn.conf",
+      "sha256": "a2f3571754b64297cb7efb2e7ca3df61995c5a45fcbb97188f90613552bb2dfe",
+      "size": 95,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/splice.conf",
+      "sha256": "9f0c5f7c82d18eaf25d8bce470efa9f7741f88411fe428774bc0a9bb69a24756",
+      "size": 35,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_bringup/launch/robot_launch.py",
+      "sha256": "0eceecd86e7bdd0671a132b34897b6b4de8cdb6a5a1807b0adb205430aeb998d",
+      "size": 906,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_bringup/package.xml",
+      "sha256": "f9bd3d9c840b793f3bcc253fe4306cd35ea0228cc7f79ab62148d226e0a87625",
+      "size": 778,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_bringup/resource/robocup_bringup",
+      "sha256": "78d30a615012966e381419a267cb2702e18d3f745fb9b1bcf7566f122317735e",
+      "size": 16,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_bringup/setup.cfg",
+      "sha256": "3388f91e65ee272554f97dcafcf32535cd91ec6920f3452c1ab1877539878430",
+      "size": 99,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_bringup/setup.py",
+      "sha256": "fa2534a9fddc898329eee33a5f0ef482aaf38179baf4e0e88ae41b2ddf909adc",
+      "size": 878,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/package.xml",
+      "sha256": "6d3e0ce009e65734eaf617c3d58999469c3d8a8c658ac4bcadd10ff7565ea812",
+      "size": 718,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/resource/robocup_speech_one",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/robocup_speech_one/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/robocup_speech_one/speech_one.py",
+      "sha256": "a315d58ab47aa351e35d5652ae270150afa72c66f4cabf4cd1bd7030fc77473c",
+      "size": 4658,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/setup.cfg",
+      "sha256": "b50ee4e336308ea3e9872a0e3b1a874d1abde1d6682b1403b15a4b4a4464a5bd",
+      "size": 105,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/setup.py",
+      "sha256": "4cbb485c28b84daee54b0ed5ce1d9f93149cf46d79354452afb78dcef120ba9c",
+      "size": 786,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/test/test_copyright.py",
+      "sha256": "37de7a9fcb2dd300ebbc0cbe249bde7799aa382d9c750ba3cf063b42e523d0a9",
+      "size": 281,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/test/test_flake8.py",
+      "sha256": "2734de6f68191c249a8e79265cf465f140facde14b1e701f510b3cbec0735a1a",
+      "size": 281,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_speech_one/test/test_pep257.py",
+      "sha256": "c0492f901cfe9bfa035644e302d464b9fd1aeb7a3c9e606878c11fb71dc4b784",
+      "size": 200,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/package.xml",
+      "sha256": "0b82db4fd34fc120c009d3388869a021e390edf7e30569853807f35d15c551fa",
+      "size": 637,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/piper-models/en_US-lessac-medium.onnx",
+      "sha256": "5efe09e69902187827af646e1a6e9d269dee769f9877d17b16b1b46eeaaf019f",
+      "size": 63201294,
+      "mode": "0o664",
+      "status": "omitted-unresolved-redistribution"
+    },
+    {
+      "path": "src/robocup_tts/piper-models/en_US-lessac-medium.onnx.json",
+      "sha256": "efe19c417bed055f2d69908248c6ba650fa135bc868b0e6abb3da181dab690a0",
+      "size": 4885,
+      "mode": "0o664",
+      "status": "omitted-unresolved-redistribution"
+    },
+    {
+      "path": "src/robocup_tts/resource/robocup_tts",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/robocup_tts/__init__.py",
+      "sha256": "5de59b55e0cd6fd782e68c45363f6333d5923ab51147de99670fc1153497d022",
+      "size": 9,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/robocup_tts/tts_node.py",
+      "sha256": "d454511b05c8e1a862b35355e829b9075ff2d6b05fc41282cda0c1e54292931e",
+      "size": 3364,
+      "mode": "0o775",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/setup.cfg",
+      "sha256": "0debda038bbf37cbae1d49ea3741f16ed6bd52f06b5dad16c82425a053e3c488",
+      "size": 91,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/setup.py",
+      "sha256": "f36494857a33bf3decbc73e60e9c9204d6bc91a351441e0eaaa039cf6ba925ce",
+      "size": 754,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/test/test_copyright.py",
+      "sha256": "ea71bbbc6247b5c14d176ed09f39ee274d563cc9b2ec355828ea451ceff31757",
+      "size": 962,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/test/test_flake8.py",
+      "sha256": "37a813a0507f0ce51a2d0b57312d2cc078a0307a3ca85580ea801b0d2f9755d2",
+      "size": 884,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_tts/test/test_pep257.py",
+      "sha256": "e8b88d49ee296987b1b40069f81019b5fa09b1aa1bfee9a1faae45bb5cf53eda",
+      "size": 803,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/config/competition_config.yaml",
+      "sha256": "c4ce86c73882a39b8ad4f8dce76a5acc2e6cf232b343116d7b05a39726e77926",
+      "size": 222,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/package.xml",
+      "sha256": "3436008cb1b8e3a9cee9e90e6f8c9762d97d9cf4d43f15ccdff5d574fa2d2179",
+      "size": 633,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/resource/robocup_voice",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/robocup_voice/__init__.py",
+      "sha256": "b7e96a1e8bdc4a81386bfb1d8dd30f71b03deeece9c8e9b8ddf8fb46702eb5ad",
+      "size": 24,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/robocup_voice/voice_node.py",
+      "sha256": "9891ffecd9f1a06bc7c9fb4ec4c04b91061389f14555df0cab69a911f2c8fe00",
+      "size": 8534,
+      "mode": "0o775",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/setup.cfg",
+      "sha256": "9316051139c17d066f45b4a3a867847335558dffaf8b68d624e08ec843cd5e8c",
+      "size": 95,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/setup.py",
+      "sha256": "a09ff0759743611b75b602732e1ea771b88a7230ab486e3f1cdce047978507d4",
+      "size": 887,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/test/test_copyright.py",
+      "sha256": "ea71bbbc6247b5c14d176ed09f39ee274d563cc9b2ec355828ea451ceff31757",
+      "size": 962,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/test/test_flake8.py",
+      "sha256": "37a813a0507f0ce51a2d0b57312d2cc078a0307a3ca85580ea801b0d2f9755d2",
+      "size": 884,
+      "mode": "0o664",
+      "status": "extracted"
+    },
+    {
+      "path": "src/robocup_voice/test/test_pep257.py",
+      "sha256": "e8b88d49ee296987b1b40069f81019b5fa09b1aa1bfee9a1faae45bb5cf53eda",
+      "size": 803,
+      "mode": "0o664",
+      "status": "extracted"
+    }
+  ]
+}

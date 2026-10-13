@@ -1,0 +1,25 @@
+wake_words:
+  - havva
+  - hava
+  - ava
+  - java
+
+# Objetos
+objects:
+  - coke
+  - milk
+  - noodle
+  - yogurt
+
+# Locaciones
+locations:
+  - bed
+  - table
+  - shelf
+  - counter
+
+# Aliases
+aliases:
+  coke:
+    - cake
+    - cok

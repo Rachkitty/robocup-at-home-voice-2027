@@ -1,0 +1,31 @@
+{
+  "name": "robocup-at-home-voice-2026",
+  "description": "ROS 2 voice subsystem for RoboCup @Home: offline Vosk ASR, Piper TTS, historical dialogue, and navigation/object topic integration.",
+  "topics": [
+    "ros2",
+    "robotics",
+    "robocup",
+    "robocup-at-home",
+    "human-robot-interaction",
+    "speech-recognition",
+    "text-to-speech",
+    "vosk",
+    "piper-tts",
+    "python",
+    "offline",
+    "service-robot",
+    "galu-robotics"
+  ],
+  "homepage": null,
+  "publication_status": "draft-only; no remote changes authorized",
+  "license_status": "MIT for Hiram Rafael Pérez Ibarra's original package code; third-party terms retained; review Piper GPL obligations before distributing a combined runtime",
+  "owner_organization": null,
+  "recommended_features": {
+    "issues": "Enable for reproducibility/engineering discussion after publication approval",
+    "wiki": "Keep disabled initially; versioned docs/ already covers the project",
+    "pages": "Not needed for the initial source portfolio",
+    "releases": "Only after license clearance and explicit publication approval"
+  },
+  "result_wording": "Owner-reported national 2026 result: 10 points + 1 extra (11 total).",
+  "author": "Hiram Rafael Pérez Ibarra"
+}

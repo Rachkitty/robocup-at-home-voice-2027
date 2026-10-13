@@ -1,0 +1,103 @@
+{
+  "project": "robocup-at-home-voice-2026",
+  "source_commit": "9952f30a2775cede3d69c0dc34962ff609addead",
+  "date": "2026-10-12",
+  "environment": {
+    "python": "3.12.14",
+    "host_ROS_underlay": false,
+    "Docker_access": false,
+    "target": "Ubuntu 24.04 / ROS 2 Jazzy; not runtime-validated"
+  },
+  "checks": {
+    "colcon_build": {
+      "status": "passed",
+      "packages": 5,
+      "scope": "ament_python packaging on host, without ROS underlay"
+    },
+    "colcon_test": {
+      "status": "passed",
+      "wrapper_tests": 1,
+      "standalone_tests_invoked": 42
+    },
+    "simulated_tests": {
+      "status": "passed",
+      "tests": 42,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "uses_ROS_Vosk_Piper_doubles": true
+    },
+    "flake8": "passed: src tests scripts, project configuration",
+    "python_syntax": "passed: 22 files, Python 3.12",
+    "shell_syntax": "passed: verify.sh",
+    "pip_check": "passed",
+    "compose_configuration": "passed: base and optional audio override",
+    "rosdep_static_keys": {
+      "status": "passed",
+      "declarations": 30,
+      "scope": "official source key membership, not runtime installation"
+    },
+    "installed_assets": {
+      "status": "passed",
+      "packages": 5,
+      "entry_points": 4,
+      "original_model_files": 14,
+      "license_and_notice_installed": true
+    },
+    "real_Vosk": {
+      "status": "passed",
+      "input": "one second synthetic silence",
+      "spoken_accuracy_verified": false
+    },
+    "source_bundle_relocation": {
+      "status": "passed",
+      "tests": 42,
+      "Git_history_absent": true
+    },
+    "Piper_import_and_chunk_API": {
+      "status": "passed",
+      "version": "1.4.2",
+      "synthesis_verified": false
+    },
+    "real_ROS_DDS_flow": {
+      "status": "blocked",
+      "reason": "rclpy/ROS underlay absent; Docker socket denied"
+    },
+    "Docker_image_build": "not executed: Docker socket denied",
+    "physical_audio_and_navigation": "not performed"
+  },
+  "original_preservation": {
+    "original_entries": 1653,
+    "final_entries": 1653,
+    "changes": [],
+    "content_modes_mtime_symlinks_including_git": "identical",
+    "HEAD": "c7a7b820fd4ad20fc931f4316ff4805b8fb2e6a6",
+    "existing_worktree_status": [
+      " M src/robocup_asr/robocup_asr/vosk_asr_node.py"
+    ]
+  },
+  "destination_git": {
+    "branch": "main (unborn)",
+    "commits": 0,
+    "objects": 0,
+    "remotes": 0,
+    "publication": false
+  },
+  "functional_corrections": [
+    "F01: reject nonstring bridge fields",
+    "F02: output at supplied Piper voice sample rate"
+  ],
+  "omitted_assets": [
+    "en_US-lessac-medium.onnx",
+    "en_US-lessac-medium.onnx.json"
+  ],
+  "pending": [
+    "Confirm competition deployment and environment",
+    "Project-source ownership/contributor authorization and license",
+    "Piper distribution/license compatibility and native component obligations",
+    "Authorized private TTS model and real synthesis",
+    "ROS/DDS flow in Jazzy",
+    "Physical microphone/speaker, echo and real navigation consumer",
+    "Maintainer contact and Docker base-image digest pin"
+  ]
+}

@@ -1,0 +1,8 @@
+# Optional: only for authorized physical audio verification.
+services:
+  ros:
+    volumes:
+      - ${XDG_RUNTIME_DIR:?Export XDG_RUNTIME_DIR}/pulse/native:/run/voice/pulse/native
+      - ${VOICE_MODEL_DIR:?Set the private ONNX directory}:/models/private:ro
+    environment:
+      PULSE_SERVER: unix:/run/voice/pulse/native

@@ -1,0 +1,199 @@
+{
+  "scope": "Static key membership only; Ubuntu rosdep install not executed",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/base.yaml",
+      "sha256": "434f6860d3834b240525e1a306c683b032bea485f529c45d5a28c72b5c921984"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/python.yaml",
+      "sha256": "4cc877e807e3f450d939a738de15474cb5da9bb42b2db9caa033689a4508c31c"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/ros/rosdistro/master/jazzy/distribution.yaml",
+      "sha256": "3ff2d86120c27b27810948e5b71b00d10e161d90d624d880f85885f1bc3369ea"
+    }
+  ],
+  "checks": [
+    {
+      "package": "robocup_asr",
+      "dependency": "ament_index_python",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_asr",
+      "dependency": "rclpy",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_asr",
+      "dependency": "std_msgs",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_asr",
+      "dependency": "python3-numpy",
+      "kind": "exec_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_asr",
+      "dependency": "python3-setuptools",
+      "kind": "buildtool_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_asr",
+      "dependency": "python3-pytest",
+      "kind": "test_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "ament_index_python",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "launch",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "launch_ros",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "robocup_asr",
+      "kind": "exec_depend",
+      "resolution": "workspace"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "robocup_tts",
+      "kind": "exec_depend",
+      "resolution": "workspace"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "robocup_voice",
+      "kind": "exec_depend",
+      "resolution": "workspace"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "robocup_speech_one",
+      "kind": "exec_depend",
+      "resolution": "workspace"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "python3-setuptools",
+      "kind": "buildtool_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_bringup",
+      "dependency": "python3-pytest",
+      "kind": "test_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_speech_one",
+      "dependency": "rclpy",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_speech_one",
+      "dependency": "std_msgs",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_speech_one",
+      "dependency": "python3-setuptools",
+      "kind": "buildtool_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_speech_one",
+      "dependency": "python3-pytest",
+      "kind": "test_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_tts",
+      "dependency": "rclpy",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_tts",
+      "dependency": "std_msgs",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_tts",
+      "dependency": "python3-numpy",
+      "kind": "exec_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_tts",
+      "dependency": "python3-setuptools",
+      "kind": "buildtool_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_tts",
+      "dependency": "python3-pytest",
+      "kind": "test_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_voice",
+      "dependency": "ament_index_python",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_voice",
+      "dependency": "rclpy",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_voice",
+      "dependency": "std_msgs",
+      "kind": "exec_depend",
+      "resolution": "jazzy_release"
+    },
+    {
+      "package": "robocup_voice",
+      "dependency": "python3-yaml",
+      "kind": "exec_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_voice",
+      "dependency": "python3-setuptools",
+      "kind": "buildtool_depend",
+      "resolution": "rosdep_key"
+    },
+    {
+      "package": "robocup_voice",
+      "dependency": "python3-pytest",
+      "kind": "test_depend",
+      "resolution": "rosdep_key"
+    }
+  ]
+}

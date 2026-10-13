@@ -1,0 +1,52 @@
+{
+  "mode": "simulated",
+  "ROS_DDS": false,
+  "physical_audio": false,
+  "recognition_and_synthesis": "test doubles",
+  "input_fixtures": [
+    "ava",
+    "milk bed",
+    "confirm"
+  ],
+  "observed_topics": {
+    "/asr_grammar": [
+      "[\"[unk]\", \"havva\", \"hava\", \"ava\", \"java\", \"coke\", \"milk\", \"noodle\", \"yogurt\", \"bed\", \"table\", \"shelf\", \"counter\"]"
+    ],
+    "/speech_text": [
+      "ava",
+      "milk bed",
+      "yes"
+    ],
+    "/asr_mode": [
+      "off",
+      "command",
+      "off",
+      "confirmation",
+      "command"
+    ],
+    "/tts_text": [
+      "yes, what can I bring you?",
+      "I heard: bring milk from bed. Say confirm or no.",
+      "Okay. Executing command."
+    ],
+    "/asr_control": [
+      false,
+      true,
+      false,
+      true,
+      false,
+      true
+    ],
+    "/command": [
+      "{'object': 'milk', 'location': 'bed'}"
+    ],
+    "/target_object": [
+      "milk"
+    ],
+    "/nav_location": [
+      "bed"
+    ]
+  },
+  "final_dialogue_state": "idle",
+  "status": "passed"
+}

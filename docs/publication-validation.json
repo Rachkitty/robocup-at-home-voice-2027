@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-12",
+  "scope": "robocup-at-home-voice-2026 only; original read solely for preservation checks",
+  "author": "Hiram Rafael Pérez Ibarra",
+  "authorship_evidence": "explicit author declaration; all own code in the five ROS voice packages",
+  "license": "MIT adopted for Hiram Rafael Pérez Ibarra original code in five packages; third-party terms retained",
+  "competition": {
+    "points": 10,
+    "extra_points": 1,
+    "total": 11,
+    "evidence": "owner reported",
+    "official_score_sheet_verified": false,
+    "deployed_commit_verified": false
+  },
+  "checks": {
+    "colcon_build": {
+      "passed_packages": 5,
+      "status": "passed without ROS underlay"
+    },
+    "colcon_test": {
+      "passed_wrappers": 1,
+      "invokes_standalone_tests": 43,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "pytest": {
+      "passed": 43,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "demo": {
+      "status": "passed",
+      "fresh_minimal_environment": true,
+      "ROS_Vosk_Piper_sounddevice_installed": false,
+      "output_matches_captured_trace": true,
+      "type": "test doubles and synthetic PCM; no DDS/hardware"
+    },
+    "flake8": "passed",
+    "Python_3_12_syntax": {
+      "passed_files": 24
+    },
+    "shell_syntax": "passed",
+    "pip_check": "passed",
+    "installed_resources": {
+      "packages": 5,
+      "executables": 4,
+      "original_Vosk_files": 14,
+      "status": "passed"
+    },
+    "real_Vosk": "passed: installed model and synthetic silence only",
+    "real_Piper": "passed: import/chunk API only; no synthesis/playback",
+    "ROS_DDS": {
+      "status": "blocked",
+      "reason": "rclpy/ROS absent; Docker socket denied"
+    },
+    "Docker_build": "blocked by socket permissions; configuration parses",
+    "physical_audio_and_navigation": "not performed",
+    "rosdep_keys": {
+      "static_passed_declarations": 30,
+      "Ubuntu_install_executed": false
+    },
+    "Mermaid": {
+      "status": "passed",
+      "mermaid_version": "12.1.0",
+      "diagrams": 1,
+      "diagram_type": "flowchart-v2",
+      "scope": "syntax parse with local Mermaid; GitHub rendering not performed"
+    },
+    "ignore_policy": {
+      "excluded_private_artifact_paths": 17,
+      "intended_paths_still_includable": 5
+    },
+    "GitHub_metadata": "draft topic/description constraints passed; no remote operations",
+    "licenses": {
+      "bundled": "Vosk Apache-2.0 model with license/notice; OSRF reference templates retain Apache headers",
+      "external_runtime": "Piper GPL-3.0-or-later, external and not vendored; other declared direct packages retain upstream licenses",
+      "uncertain_models": "none included; Lessac omitted",
+      "dev_inventory": "observed development freeze is not vendored; some metadata blank/UNKNOWN and must be rechecked before future bundling"
+    },
+    "verification_script": {
+      "status": "passed through installation and Vosk checks; stopped at expected ROS runtime gate",
+      "shell_setup_fix": "temporarily disable nounset while sourcing colcon setup hooks"
+    }
+  },
+  "preservation": {
+    "entries": 1653,
+    "changes": [],
+    "compared": "contents, modes, mtimes, symlink targets; includes .git/index, refs, ignored artifacts",
+    "matches_extraction_baseline": true,
+    "active_source_asset_files": 46,
+    "active_source_asset_changes": [],
+    "source_HEAD": "c7a7b820fd4ad20fc931f4316ff4805b8fb2e6a6",
+    "source_status": [
+      " M src/robocup_asr/robocup_asr/vosk_asr_node.py"
+    ]
+  },
+  "initial_candidate_inventory": {
+    "files_excluding_indexes": 140,
+    "MiB": 67.964,
+    "model_bytes": 70909410,
+    "largest_file_MiB": 22.901,
+    "over_50_MiB": 0,
+    "over_100_MiB": 0
+  },
+  "secret_scan": {
+    "text_files": 136,
+    "skipped_files": [
+      "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/am/final.mdl",
+      "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/Gr.fst",
+      "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/HCLr.fst",
+      "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.dubm",
+      "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.ie",
+      "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.mat"
+    ],
+    "hits_values_redacted": [],
+    "scope": "candidate source files only, pattern-based; not a credential-absence guarantee"
+  },
+  "active_node_or_asset_changes": 0,
+  "remote_publication": false,
+  "blocking_items": [
+    "Review Piper/native-component GPL obligations for intended public distribution form before publishing a combined runtime/package/container"
+  ],
+  "blocks_stronger_claims_only": [
+    "ROS/DDS execution",
+    "Authorized private voice synthesis and actual audio/hardware",
+    "Official scoring evidence and exact deployed snapshot"
+  ],
+  "nonblocking_recommendations": [
+    "Verified maintainer contact/homepage",
+    "Docker base image digest and dependency lock hashes",
+    "Genuine authorized competition/robot video",
+    "Future CI badges only after actual remote runs",
+    "Pinned model-download strategy for future upgrades, as a separate change"
+  ],
+  "licensing": {
+    "author_code": "MIT",
+    "copyright": "Copyright (c) 2026 Hiram Rafael Pérez Ibarra",
+    "package_manifests": {
+      "robocup_asr": [
+        "MIT",
+        "Apache-2.0"
+      ],
+      "robocup_tts": [
+        "MIT"
+      ],
+      "robocup_voice": [
+        "MIT"
+      ],
+      "robocup_bringup": [
+        "MIT"
+      ],
+      "robocup_speech_one": [
+        "MIT"
+      ]
+    },
+    "bundled_model": "vosk-model-small-en-us-0.15; Apache-2.0; original LICENSE/NOTICE included",
+    "piper_runtime": "piper-tts==1.4.2; GPL-3.0-or-later; external dependency not vendored; review obligations before public runtime distribution",
+    "lessac_voice": "ONNX/JSON omitted; redistribution permission not established",
+    "license_uncertainty_in_bundled_assets": false
+  }
+}

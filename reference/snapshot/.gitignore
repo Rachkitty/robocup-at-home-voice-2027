@@ -1,0 +1,47 @@
+# ROS 2 build artifacts
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.eggs/
+*.egg-info/
+dist/
+develop-eggs/
+downloads/
+parts/
+var/
+
+# C/C++
+*.o
+*.obj
+*.dll
+*.dylib
+*.exe
+*.lib
+*.out
+*.a
+*.pdb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test files
+test.wav
+
+# Environment
+.env
+.venv
+venv/
+ENV/

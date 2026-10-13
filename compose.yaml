@@ -1,0 +1,14 @@
+services:
+  ros:
+    build:
+      context: .
+      args:
+        HOST_UID: ${HOST_UID:?Export HOST_UID}
+        HOST_GID: ${HOST_GID:?Export HOST_GID}
+    volumes:
+      - .:/workspace
+    environment:
+      ROS_DOMAIN_ID: 86
+      ROS_LOCALHOST_ONLY: 1
+    stdin_open: true
+    tty: true

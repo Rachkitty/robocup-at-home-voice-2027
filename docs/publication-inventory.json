@@ -1,0 +1,36 @@
+{
+  "scope": "Git-includable candidate source excluding the two generated inventory indexes; all ignored artifacts excluded",
+  "source_files_excluding_indexes": 140,
+  "source_bytes_excluding_indexes": 71264924,
+  "source_MiB_excluding_indexes": 67.964,
+  "model_bytes": 70909410,
+  "largest_file": {
+    "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/Gr.fst",
+    "bytes": 24013795,
+    "MiB": 22.901
+  },
+  "files_over_50_MiB": 0,
+  "files_over_100_MiB": 0,
+  "private_voice_files": [],
+  "local_workspace_bytes": 201283347,
+  "candidate_root_files": [
+    ".dockerignore",
+    ".flake8",
+    ".gitignore",
+    "AGENTS.md",
+    "AUTHORS.md",
+    "Dockerfile",
+    "FILE_MANIFEST.json",
+    "LICENSE",
+    "LICENSE.md",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "compose.audio.yaml",
+    "compose.yaml",
+    "pytest.ini",
+    "requirements-demo.txt",
+    "requirements-dev.txt",
+    "requirements.lock.txt",
+    "requirements.txt"
+  ]
+}

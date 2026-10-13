@@ -1,0 +1,709 @@
+{
+  "files": [
+    {
+      "path": ".dockerignore",
+      "size": 173,
+      "sha256": "fadbecc53348160a6c445ec96f8efe00e5d5aea9731ceac5f849ed3ba9295579"
+    },
+    {
+      "path": ".flake8",
+      "size": 170,
+      "sha256": "ebbaae653b3a290d4675225100da8325b4b66f9828f2eaa42914e0f5b61554d0"
+    },
+    {
+      "path": ".gitignore",
+      "size": 667,
+      "sha256": "ae0d9bbd49e556785370123b9f47385ebd7e55b471bfe90027bfacd0b29d6b4a"
+    },
+    {
+      "path": "AGENTS.md",
+      "size": 1471,
+      "sha256": "6df693a9aeac7f3a3f2dbccd8849355f933e265f16bbc78bf43ca11f7932ec6b"
+    },
+    {
+      "path": "AUTHORS.md",
+      "size": 951,
+      "sha256": "6dab9424810f050ede9f9e0c042a19af78f8fd5618774eaa7cb9935343906d31"
+    },
+    {
+      "path": "Dockerfile",
+      "size": 1280,
+      "sha256": "c482b502859288b4bdd2523da0eefbdfcf58c61daf8c795f4a2fc963f5e3a113"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1083,
+      "sha256": "aa9f9415ebe22a182874c294e69f35df3875b6886894829665d39a03fb7925b4"
+    },
+    {
+      "path": "LICENSE.md",
+      "size": 1053,
+      "sha256": "3bbbcc03d69edd585b8af049e158aac4b7125124814ff217d7a159df8d20abaf"
+    },
+    {
+      "path": "LICENSES/Apache-2.0.txt",
+      "size": 10173,
+      "sha256": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6"
+    },
+    {
+      "path": "LICENSES/GPL-3.0.txt",
+      "size": 35148,
+      "sha256": "0ae0485a5bd37a63e63603596417e4eb0e653334fa6c7f932ca3a0e85d4af227"
+    },
+    {
+      "path": "LICENSES/lessac-MODEL_CARD.txt",
+      "size": 351,
+      "sha256": "ce49eb457742208166d399a40cdec2c7fa9db77960930031564ab56f12882645"
+    },
+    {
+      "path": "README.md",
+      "size": 10082,
+      "sha256": "e38e40cc5a89cd725446daa91ca0618a5d3d50401ecec05656d62f94dd215857"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "size": 1412,
+      "sha256": "a6a8c6a44a0f69534b8bcb691d23fd0761f384c319510fc6fd8016872a1cddaa"
+    },
+    {
+      "path": "compose.audio.yaml",
+      "size": 323,
+      "sha256": "60a46f8bb629a53b58ebd0cfeccd3295ebe9e1a536845320803e313cf7477c4d"
+    },
+    {
+      "path": "compose.yaml",
+      "size": 289,
+      "sha256": "71101a2baee943fa37bac839e1d3dc678b92d21a1c847967dc9041acdc5e86c4"
+    },
+    {
+      "path": "docs/CHANGES.md",
+      "size": 4643,
+      "sha256": "ddae9db3897243f41e50cb9c1f74006128cec9087f61ec4b2b8da196bfc5820e"
+    },
+    {
+      "path": "docs/COMPETITION_2026.md",
+      "size": 1422,
+      "sha256": "707f12b54e65a66b5098a5c1d76c8cb6c388e3fd80ef332af4f8577f8d08cab7"
+    },
+    {
+      "path": "docs/GITHUB_PRESENTATION.md",
+      "size": 3908,
+      "sha256": "2b7164cee35cfea5f7c1c890f67591a885e6648c7dc23e5053c4c371ee426ae6"
+    },
+    {
+      "path": "docs/LICENSING.md",
+      "size": 2511,
+      "sha256": "5d979704d07f6869485fb04ba40b86769943a1cb155fa754b429660868972ebc"
+    },
+    {
+      "path": "docs/PHYSICAL_CHECKLIST.md",
+      "size": 1136,
+      "sha256": "d25e87059a1dd587ac95a507c99de74c5a06259d371f9a07e3ad1af04f2a5481"
+    },
+    {
+      "path": "docs/PROVENANCE.md",
+      "size": 5366,
+      "sha256": "5ad5bff882d04d215c3b78ce829b2d7708d6c8aedb9de017910cb49641684d7e"
+    },
+    {
+      "path": "docs/PUBLICATION_READINESS.md",
+      "size": 12443,
+      "sha256": "dfe6ff1afc7a6ae08b49e755e80383ceb8353d6b558ffdfcc4bd755bc2f53c0b"
+    },
+    {
+      "path": "docs/SETUP.md",
+      "size": 4216,
+      "sha256": "4422e8a45ea5cc36942ed4e3ed713effc45f2cfaa8462739e580e377ad074cea"
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "size": 3591,
+      "sha256": "0fec59de1831d9735b097360942b39bdb42a272ae3e48e314b12c8949e14ca77"
+    },
+    {
+      "path": "docs/demo-output.json",
+      "size": 1040,
+      "sha256": "954d905ed4c9fcdb7f960d4a2d74fb71e17b7e44620fa56d017a613fb04c2aa3"
+    },
+    {
+      "path": "docs/dependency-inventory.json",
+      "size": 74247,
+      "sha256": "c985bccfab5650eb1bf5f3157b738340ff0b280ad9ad658cee180432a1e7cf15"
+    },
+    {
+      "path": "docs/extraction-manifest.json",
+      "size": 13915,
+      "sha256": "0270f9f539ee4a07d66353fe196e0cf16ceb0d7584bb28c73fc635dac9a1cbdd"
+    },
+    {
+      "path": "docs/github-metadata.json",
+      "size": 1240,
+      "sha256": "58d8b7511b7ab17e0330472202738606663ee8e263f91d309cb81d60679df3c2"
+    },
+    {
+      "path": "docs/model-provenance.json",
+      "size": 3379,
+      "sha256": "f8af8ecdd59453e6f81074b47eb9cd26b3b7e39f8e637db1182b52470beaae02"
+    },
+    {
+      "path": "docs/original-preservation.json",
+      "size": 279,
+      "sha256": "164fbdd11df625deeb4e2b61743498f8052db20cf931545cb292a0f12afa3b60"
+    },
+    {
+      "path": "docs/publication-inventory.json",
+      "size": 972,
+      "sha256": "6eebfe9cf0f5ab32e2fadb7740879bce858b4a00ede97e5503d04621297adc12"
+    },
+    {
+      "path": "docs/publication-validation.json",
+      "size": 5981,
+      "sha256": "20c83728646aa1a43d2852abaf1f9058bef2e02d0bba873a09137d18c6f1e519"
+    },
+    {
+      "path": "docs/rosdep-static-validation.json",
+      "size": 5117,
+      "sha256": "64e416d8d8690b4e2e3ea6f508560c132cfb8f81305b6c0be6f6d8fc14c4d754"
+    },
+    {
+      "path": "docs/source-diff.patch",
+      "size": 33935,
+      "sha256": "eae6e9b027f421f11cc90e087a4690883465d9ea8194e218fc488c1703526725"
+    },
+    {
+      "path": "docs/validation-results.json",
+      "size": 3131,
+      "sha256": "83ebe1c3d5d089f58113fdd89525aac12783276a39bbb198c50fd28ab23b0790"
+    },
+    {
+      "path": "pytest.ini",
+      "size": 41,
+      "sha256": "6a96ba0e2d5a8296fb90f474da9d2f0173d3e41eba18965513f711104155f913"
+    },
+    {
+      "path": "reference/COLCON_IGNORE",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/snapshot/.gitignore",
+      "size": 331,
+      "sha256": "192acb6f05665ef5b16db655749be126e44dfbde3ce728b76c3a409196354fdd"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/package.xml",
+      "size": 631,
+      "sha256": "36f3abf4f21ab2ac8cea5b51c26d05cf94a134a0e0340d3cb1f5a9a97c542fdd"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/resource/robocup_asr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/robocup_asr/__init__.py",
+      "size": 9,
+      "sha256": "5de59b55e0cd6fd782e68c45363f6333d5923ab51147de99670fc1153497d022"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/robocup_asr/vosk_asr_node.py",
+      "size": 9813,
+      "sha256": "d3eb68420eeffcc14d03bc1f2729f82a8b21ae2dfe870e309c657e8370d2c526"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/setup.cfg",
+      "size": 91,
+      "sha256": "c8cba2775bed3349a1d5395f10bddfb43f38a623e6c3352d0a601cfc0d49b8db"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/setup.py",
+      "size": 748,
+      "sha256": "5058ba06789416c0d2b9fc32c1b0449548d015c4378c257bec95c193cd402dff"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/test/test_copyright.py",
+      "size": 962,
+      "sha256": "ea71bbbc6247b5c14d176ed09f39ee274d563cc9b2ec355828ea451ceff31757"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/test/test_flake8.py",
+      "size": 884,
+      "sha256": "37a813a0507f0ce51a2d0b57312d2cc078a0307a3ca85580ea801b0d2f9755d2"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_asr/test/test_pep257.py",
+      "size": 803,
+      "sha256": "e8b88d49ee296987b1b40069f81019b5fa09b1aa1bfee9a1faae45bb5cf53eda"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_bringup/launch/robot_launch.py",
+      "size": 906,
+      "sha256": "0eceecd86e7bdd0671a132b34897b6b4de8cdb6a5a1807b0adb205430aeb998d"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_bringup/package.xml",
+      "size": 778,
+      "sha256": "f9bd3d9c840b793f3bcc253fe4306cd35ea0228cc7f79ab62148d226e0a87625"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_bringup/resource/robocup_bringup",
+      "size": 16,
+      "sha256": "78d30a615012966e381419a267cb2702e18d3f745fb9b1bcf7566f122317735e"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_bringup/setup.cfg",
+      "size": 99,
+      "sha256": "3388f91e65ee272554f97dcafcf32535cd91ec6920f3452c1ab1877539878430"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_bringup/setup.py",
+      "size": 878,
+      "sha256": "fa2534a9fddc898329eee33a5f0ef482aaf38179baf4e0e88ae41b2ddf909adc"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/package.xml",
+      "size": 718,
+      "sha256": "6d3e0ce009e65734eaf617c3d58999469c3d8a8c658ac4bcadd10ff7565ea812"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/resource/robocup_speech_one",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/robocup_speech_one/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/robocup_speech_one/speech_one.py",
+      "size": 4658,
+      "sha256": "a315d58ab47aa351e35d5652ae270150afa72c66f4cabf4cd1bd7030fc77473c"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/setup.cfg",
+      "size": 105,
+      "sha256": "b50ee4e336308ea3e9872a0e3b1a874d1abde1d6682b1403b15a4b4a4464a5bd"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/setup.py",
+      "size": 786,
+      "sha256": "4cbb485c28b84daee54b0ed5ce1d9f93149cf46d79354452afb78dcef120ba9c"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/test/test_copyright.py",
+      "size": 281,
+      "sha256": "37de7a9fcb2dd300ebbc0cbe249bde7799aa382d9c750ba3cf063b42e523d0a9"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/test/test_flake8.py",
+      "size": 281,
+      "sha256": "2734de6f68191c249a8e79265cf465f140facde14b1e701f510b3cbec0735a1a"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_speech_one/test/test_pep257.py",
+      "size": 200,
+      "sha256": "c0492f901cfe9bfa035644e302d464b9fd1aeb7a3c9e606878c11fb71dc4b784"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/package.xml",
+      "size": 637,
+      "sha256": "0b82db4fd34fc120c009d3388869a021e390edf7e30569853807f35d15c551fa"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/resource/robocup_tts",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/robocup_tts/__init__.py",
+      "size": 9,
+      "sha256": "5de59b55e0cd6fd782e68c45363f6333d5923ab51147de99670fc1153497d022"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/robocup_tts/tts_node.py",
+      "size": 3364,
+      "sha256": "d454511b05c8e1a862b35355e829b9075ff2d6b05fc41282cda0c1e54292931e"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/setup.cfg",
+      "size": 91,
+      "sha256": "0debda038bbf37cbae1d49ea3741f16ed6bd52f06b5dad16c82425a053e3c488"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/setup.py",
+      "size": 754,
+      "sha256": "f36494857a33bf3decbc73e60e9c9204d6bc91a351441e0eaaa039cf6ba925ce"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/test/test_copyright.py",
+      "size": 962,
+      "sha256": "ea71bbbc6247b5c14d176ed09f39ee274d563cc9b2ec355828ea451ceff31757"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/test/test_flake8.py",
+      "size": 884,
+      "sha256": "37a813a0507f0ce51a2d0b57312d2cc078a0307a3ca85580ea801b0d2f9755d2"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_tts/test/test_pep257.py",
+      "size": 803,
+      "sha256": "e8b88d49ee296987b1b40069f81019b5fa09b1aa1bfee9a1faae45bb5cf53eda"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/config/competition_config.yaml",
+      "size": 222,
+      "sha256": "c4ce86c73882a39b8ad4f8dce76a5acc2e6cf232b343116d7b05a39726e77926"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/package.xml",
+      "size": 633,
+      "sha256": "3436008cb1b8e3a9cee9e90e6f8c9762d97d9cf4d43f15ccdff5d574fa2d2179"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/resource/robocup_voice",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/robocup_voice/__init__.py",
+      "size": 24,
+      "sha256": "b7e96a1e8bdc4a81386bfb1d8dd30f71b03deeece9c8e9b8ddf8fb46702eb5ad"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/robocup_voice/voice_node.py",
+      "size": 8534,
+      "sha256": "9891ffecd9f1a06bc7c9fb4ec4c04b91061389f14555df0cab69a911f2c8fe00"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/setup.cfg",
+      "size": 95,
+      "sha256": "9316051139c17d066f45b4a3a867847335558dffaf8b68d624e08ec843cd5e8c"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/setup.py",
+      "size": 887,
+      "sha256": "a09ff0759743611b75b602732e1ea771b88a7230ab486e3f1cdce047978507d4"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/test/test_copyright.py",
+      "size": 962,
+      "sha256": "ea71bbbc6247b5c14d176ed09f39ee274d563cc9b2ec355828ea451ceff31757"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/test/test_flake8.py",
+      "size": 884,
+      "sha256": "37a813a0507f0ce51a2d0b57312d2cc078a0307a3ca85580ea801b0d2f9755d2"
+    },
+    {
+      "path": "reference/snapshot/src/robocup_voice/test/test_pep257.py",
+      "size": 803,
+      "sha256": "e8b88d49ee296987b1b40069f81019b5fa09b1aa1bfee9a1faae45bb5cf53eda"
+    },
+    {
+      "path": "requirements-demo.txt",
+      "size": 113,
+      "sha256": "50e75bb54ee43a8f122f82982d5b95498f001b3e4368207279030fb6ef40f508"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "size": 119,
+      "sha256": "234d133250fa349c73613109a71ff2606b13b0a6a2462e7c82ec178056a398f7"
+    },
+    {
+      "path": "requirements.lock.txt",
+      "size": 1309,
+      "sha256": "3fd89d4d3a6355a0ef7df57a05626425d08b5fe398c38b8bfec0c8982319abaa"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 145,
+      "sha256": "d4960b2d2541ae1cea5232136b9484dd1aee0d1dc72ddbc238b4afadd6c71093"
+    },
+    {
+      "path": "scripts/demo_simulated.py",
+      "size": 1423,
+      "sha256": "b8d894280e5d836d8109c49fc69cc63e3ea6722ffcda3426e93002c2625791e3"
+    },
+    {
+      "path": "scripts/verify.sh",
+      "size": 682,
+      "sha256": "ce97690e09fdc04640e6411499a911854a456df80d715e4264b9b01abde789ec"
+    },
+    {
+      "path": "scripts/verify_install.py",
+      "size": 1876,
+      "sha256": "011302bdcf422037e1745d55e3cedd1356c50c86b0c96884eb4e67f36b6834d3"
+    },
+    {
+      "path": "scripts/verify_ros_flow.py",
+      "size": 3241,
+      "sha256": "2c32c2b583634804262b1091e53c776773fe5c92c810dc747e979f6841d99ab5"
+    },
+    {
+      "path": "scripts/verify_vosk.py",
+      "size": 821,
+      "sha256": "9a9950d46e2d4ff03be3b8897e4a135af644e3c4ef56f9875e802d9a8a042c41"
+    },
+    {
+      "path": "src/robocup_asr/package.xml",
+      "size": 638,
+      "sha256": "7a585af5773a8cbaabb32d1054f2de8a76aa22bb48e3952c5256d2352d61159b"
+    },
+    {
+      "path": "src/robocup_asr/resource/robocup_asr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/robocup_asr/robocup_asr/__init__.py",
+      "size": 9,
+      "sha256": "5de59b55e0cd6fd782e68c45363f6333d5923ab51147de99670fc1153497d022"
+    },
+    {
+      "path": "src/robocup_asr/robocup_asr/vosk_asr_node.py",
+      "size": 10199,
+      "sha256": "6b86915da8e0835d73c92a8e9b71b2b5843ff99df5972639169e086722495782"
+    },
+    {
+      "path": "src/robocup_asr/setup.cfg",
+      "size": 91,
+      "sha256": "c8cba2775bed3349a1d5395f10bddfb43f38a623e6c3352d0a601cfc0d49b8db"
+    },
+    {
+      "path": "src/robocup_asr/setup.py",
+      "size": 1194,
+      "sha256": "00219438c2a90df81ec05990aeacce6289f9c5882345c1abc5753d15aa7dff46"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/LICENSE",
+      "size": 10173,
+      "sha256": "bb618af833c817ab01c1564bd3ec75ba4b4f9cf30910a4a2168e30a674ee8cc6"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/NOTICE",
+      "size": 270,
+      "sha256": "db2f9af5b28bee32c8490d7c65a4b7cf163ba1446c549485831cf0b285006d44"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/README",
+      "size": 199,
+      "sha256": "c0cf286e4f7783306c5f6469b37db69228fb16803b03cae661edb2d7bba64ebb"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/am/final.mdl",
+      "size": 15962575,
+      "sha256": "75370a0137f9daf8f469dedd7daa4513ae7a621f03240c6e512e2b50b656a7b6"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/conf/mfcc.conf",
+      "size": 131,
+      "sha256": "1e2228006d01d805ad1c267fee9f79709ca87ac51bd82b0e3f5c69ba543f0fc4"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/conf/model.conf",
+      "size": 290,
+      "sha256": "8f14cb1eeb07c762c371db648c6be688d347236155ca0f64fb13b6567a8ce81f"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/Gr.fst",
+      "size": 24013795,
+      "sha256": "023c8b7e30704a9e37765c635c252e608a02f361235bf94abdcf2a5225d85b20"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/HCLr.fst",
+      "size": 22416994,
+      "sha256": "5caafba3081e1646545ac6bff0dd7a318e53dcbdc86f237909ce1d2ac1293d34"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/disambig_tid.int",
+      "size": 102,
+      "sha256": "9ad87cc166d0998f08f758f47a6223a120dfffcbee805c4849c3aa5e6bb3c0fc"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/graph/phones/word_boundary.int",
+      "size": 1761,
+      "sha256": "da199d9c991e0e84681ddbb34627b915b26302d50a8fdaa23c51e2bc3a50b5c3"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.dubm",
+      "size": 168048,
+      "sha256": "8c5d7dd69d2122313baaf19f61f35dd3fa18b70c62ac0687e311e1c46e6daca7"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.ie",
+      "size": 8288887,
+      "sha256": "3f37faf90c375b9e4740b569398b5829ed9cc07d19be6d441f72c3b71d7efcc6"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/final.mat",
+      "size": 44975,
+      "sha256": "ddd83586dc5f928cda8738b922c85ffe38fc789cb5f9151a712ca12f37265382"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/global_cmvn.stats",
+      "size": 1080,
+      "sha256": "33be09afcc80059847a275c3d043b51f1ab954c7c2438ddbbf4745e8ba144ff9"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/online_cmvn.conf",
+      "size": 95,
+      "sha256": "a2f3571754b64297cb7efb2e7ca3df61995c5a45fcbb97188f90613552bb2dfe"
+    },
+    {
+      "path": "src/robocup_asr/vosk_models/vosk-model-small-en-us-0.15/ivector/splice.conf",
+      "size": 35,
+      "sha256": "9f0c5f7c82d18eaf25d8bce470efa9f7741f88411fe428774bc0a9bb69a24756"
+    },
+    {
+      "path": "src/robocup_bringup/launch/robot_launch.py",
+      "size": 1394,
+      "sha256": "31d42fd3998fd58dbc82497404beebb2f6031a91bb8e5016d41b32283786155c"
+    },
+    {
+      "path": "src/robocup_bringup/package.xml",
+      "size": 754,
+      "sha256": "844ec8b1ad42f16f3a29b998f3f80313f94ef4214c69fc95eae9f55cde7d967b"
+    },
+    {
+      "path": "src/robocup_bringup/resource/robocup_bringup",
+      "size": 16,
+      "sha256": "78d30a615012966e381419a267cb2702e18d3f745fb9b1bcf7566f122317735e"
+    },
+    {
+      "path": "src/robocup_bringup/setup.cfg",
+      "size": 99,
+      "sha256": "3388f91e65ee272554f97dcafcf32535cd91ec6920f3452c1ab1877539878430"
+    },
+    {
+      "path": "src/robocup_bringup/setup.py",
+      "size": 826,
+      "sha256": "c967039d07831130e92c2841ee268dc25f23b4bb00007350646ce92e66fb7b59"
+    },
+    {
+      "path": "src/robocup_bringup/test/test_reconstruction.py",
+      "size": 390,
+      "sha256": "7879bb086644b859042c9ef9b89cd6f195f3e2c4208ed452526ad43b10f246a6"
+    },
+    {
+      "path": "src/robocup_speech_one/package.xml",
+      "size": 561,
+      "sha256": "e0e81916ce1096a1d13515d0f78cec67fa16f6fb52e892b1a07b7be072a64a3a"
+    },
+    {
+      "path": "src/robocup_speech_one/resource/robocup_speech_one",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/robocup_speech_one/robocup_speech_one/__init__.py",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/robocup_speech_one/robocup_speech_one/speech_one.py",
+      "size": 4866,
+      "sha256": "6d32ed24188c2265bdb7f6807ed35c729877188cb5aec4421fdd7ce7c15e11ab"
+    },
+    {
+      "path": "src/robocup_speech_one/setup.cfg",
+      "size": 105,
+      "sha256": "b50ee4e336308ea3e9872a0e3b1a874d1abde1d6682b1403b15a4b4a4464a5bd"
+    },
+    {
+      "path": "src/robocup_speech_one/setup.py",
+      "size": 804,
+      "sha256": "360652ef2df816669a330035644dbe7582c4230175758a50d965a69c7b1cbeff"
+    },
+    {
+      "path": "src/robocup_tts/package.xml",
+      "size": 586,
+      "sha256": "8f2a679768502595216ee251bbc9e7d854c153d42f9d9bb2c4fe3bfc4906fa80"
+    },
+    {
+      "path": "src/robocup_tts/resource/robocup_tts",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/robocup_tts/robocup_tts/__init__.py",
+      "size": 9,
+      "sha256": "5de59b55e0cd6fd782e68c45363f6333d5923ab51147de99670fc1153497d022"
+    },
+    {
+      "path": "src/robocup_tts/robocup_tts/tts_node.py",
+      "size": 3933,
+      "sha256": "ef1c512c1eb0672b42136d0ad7ee3b66b70a177797aec0bc2a6b5a1d8f63909f"
+    },
+    {
+      "path": "src/robocup_tts/setup.cfg",
+      "size": 91,
+      "sha256": "0debda038bbf37cbae1d49ea3741f16ed6bd52f06b5dad16c82425a053e3c488"
+    },
+    {
+      "path": "src/robocup_tts/setup.py",
+      "size": 826,
+      "sha256": "b6f8c4fd56a9799306718c014ef394c0f8bf0d580b10bfce6a321a6cb15bbae0"
+    },
+    {
+      "path": "src/robocup_voice/config/competition_config.yaml",
+      "size": 222,
+      "sha256": "c4ce86c73882a39b8ad4f8dce76a5acc2e6cf232b343116d7b05a39726e77926"
+    },
+    {
+      "path": "src/robocup_voice/package.xml",
+      "size": 635,
+      "sha256": "fd325c9d2ed5402bba28025f4870c967dd1b0b02d16d426afb408137a7d0312a"
+    },
+    {
+      "path": "src/robocup_voice/resource/robocup_voice",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/robocup_voice/robocup_voice/__init__.py",
+      "size": 24,
+      "sha256": "b7e96a1e8bdc4a81386bfb1d8dd30f71b03deeece9c8e9b8ddf8fb46702eb5ad"
+    },
+    {
+      "path": "src/robocup_voice/robocup_voice/voice_node.py",
+      "size": 8518,
+      "sha256": "5c6377cb561e5d11bb19f353eca51084bbf3f65864938e2084d943a2ed2ac191"
+    },
+    {
+      "path": "src/robocup_voice/setup.cfg",
+      "size": 95,
+      "sha256": "9316051139c17d066f45b4a3a867847335558dffaf8b68d624e08ec843cd5e8c"
+    },
+    {
+      "path": "src/robocup_voice/setup.py",
+      "size": 902,
+      "sha256": "7ea29387d6fa44aa5a84c944793525b48b114227295d3ed0d37bb5c3c8cea867"
+    },
+    {
+      "path": "tests/conftest.py",
+      "size": 4606,
+      "sha256": "784131c4413406ce1bc80a4281b334a1faaca6f9d08ffd537c747ec987fd7a7e"
+    },
+    {
+      "path": "tests/test_audio_simulated.py",
+      "size": 6400,
+      "sha256": "883469bc03ab3b13819edf05628b12af0d13bdea55e198bbbac97362c24f216e"
+    },
+    {
+      "path": "tests/test_demo_cli.py",
+      "size": 934,
+      "sha256": "01776fa09729c32b9321d25f96c4d7f7b7208e217dc1e87a1dcf17730fe4087c"
+    },
+    {
+      "path": "tests/test_historical_contract.py",
+      "size": 4072,
+      "sha256": "0a4cd010215fb27228c2be448e50e8212fecc9e76b1ba086597870b6978a5ba0"
+    },
+    {
+      "path": "tests/test_integrity.py",
+      "size": 1249,
+      "sha256": "0b33b67ea56d4a1f2d453975108e3a95329b4eb4c4c31e561c59a85655cf57e7"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "original_entries": 1653,
+  "final_entries": 1653,
+  "changes": [],
+  "content_modes_mtime_symlinks_including_git": "identical",
+  "HEAD": "c7a7b820fd4ad20fc931f4316ff4805b8fb2e6a6",
+  "existing_worktree_status": [
+    " M src/robocup_asr/robocup_asr/vosk_asr_node.py"
+  ]
+}
