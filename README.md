@@ -1,193 +1,231 @@
 # RoboCup @Home Voice 2026
 
-**Galu Robotics portfolio · Author: Hiram Rafael Pérez Ibarra**
+Subsistema de voz y diálogo para robot de servicio en ROS 2 Jazzy (Ubuntu 24.04). Conecta reconocimiento de voz fuera de línea (**Vosk ASR**), máquina de estados de diálogo con palabras clave, síntesis de voz (**Piper TTS**) y un puente de integración hacia navegación y visión por computador mediante tópicos de ROS 2.
 
-A ROS 2 voice subsystem connecting offline **Vosk speech recognition**, historical
-keyword dialogue, **Piper text-to-speech**, and navigation/object-recognition
-integration through ROS topics. This repository reconstructs the April 2026
-implementation as an independent five-package workspace.
+---
 
-**Owner-reported national 2026 result: 10 points + 1 extra (11 total).**
-This is the reported team result associated with the project, not a score claimed
-for the voice module alone. An official score sheet and the exact deployed
-checkout have not been independently verified. [Result evidence](docs/COMPETITION_2026.md).
+## 📋 Requisitos previos
 
-**License:** MIT applies to Hiram's original code in the five ROS 2 packages.
-Third-party terms remain separate. Piper voice weights/configuration are omitted.
-No repository has been published by this preparation.
+Tus compañeras deben contar con:
+1. **Ubuntu 24.04 LTS**.
+2. **ROS 2 Jazzy** instalado y configurado en `/opt/ros/jazzy`.
+3. Micrófono y bocina/altavoces (o audífonos) reconocidos por el sistema de audio.
 
-## Engineering scope
+---
 
-- Five `ament_python` packages with separate recognition, synthesis, dialogue,
-  integration and launch responsibilities.
-- Offline Vosk model, configurable command/confirmation grammars, noise calibration
-  and TTS-driven pause/resume control.
-- Historical keyword parser and confirmation state machine using April objects
-  and locations; explicit provenance and differential regression tests.
-- A bridge from `/command` to `/nav_location` and `/target_object` for external
-  navigation and object-recognition consumers.
-- Portable installed model/configuration paths and a reproducible simulated demo.
+## 🛠️ Guía de instalación rápida
 
-The bridge publishes location names; it does not plan a path or execute a Nav2
-goal. Navigation consumers, maps, perception, manipulation and robot hardware
-are outside this repository. No international-2027 functionality is included.
+Sigue estos pasos en la terminal desde la raíz del repositorio clonado:
 
-## Architecture
+### 1. Clonar el repositorio y entrar a la carpeta
+```bash
+git clone https://github.com/Raphinha1/robocup-at-home-voice-2026.git
+cd robocup-at-home-voice-2026
+```
 
-The diagram describes implemented code connections, **not hardware validation**.
-Dashed consumers are external, and a private authorized Piper voice is required
-for real synthesis/playback.
+### 2. Instalar herramientas de compilación y dependencias del sistema
+```bash
+sudo apt update
+sudo apt install -y \
+  python3-colcon-common-extensions \
+  python3-pip \
+  python3-venv \
+  python3-rosdep \
+  portaudio19-dev \
+  libasound2-plugins
+```
+
+### 3. Crear y activar el entorno virtual de Python
+Para evitar conflictos con los paquetes del sistema en Ubuntu 24.04 (PEP 668), se recomienda usar un entorno virtual con `--system-site-packages` (para que tenga acceso a las bibliotecas de ROS 2):
+
+```bash
+python3 -m venv --system-site-packages .venv
+source .venv/bin/activate
+```
+
+Instalar las dependencias de Python requeridas:
+```bash
+pip install -r requirements-dev.txt
+```
+
+### 4. Resolver dependencias de ROS y compilar
+Inicializa `rosdep` (si no lo has hecho antes) y compila el workspace con `colcon`:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+# Solo si nunca has inicializado rosdep en tu máquina:
+# sudo rosdep init
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro jazzy -r -y
+
+# Compilar desde la raíz del workspace (NUNCA dentro de src/)
+colcon build --base-paths src --symlink-install
+```
+
+> [!WARNING]
+> Ejecuta siempre `colcon build` desde la raíz del repositorio, nunca dentro de `src/`.
+
+---
+
+## 🗣️ Modelos de Voz (ASR y TTS)
+
+### 1. Reconocimiento de voz (Vosk ASR)
+El modelo ligero en inglés `vosk-model-small-en-us-0.15` viene incluido en el paquete `robocup_asr` dentro de `src/robocup_asr/vosk_models/`. No necesitas descargar nada adicional para reconocimiento de voz.
+
+### 2. Síntesis de voz (Piper TTS)
+Por cuestiones de licencias y tamaño, los pesos del modelo de Piper no se distribuyen en el repositorio. Necesitas un modelo `.onnx` y su archivo descriptor `.onnx.json` correspondiente:
+
+- Puedes descargar una voz compatible en español o inglés desde el [repositorio oficial de voces de Piper](https://github.com/rhasspy/piper/blob/master/VOICES.md) (por ejemplo `es_ES-sharvard-medium` o `en_US-lessac-medium`).
+- Guarda el archivo `.onnx` y su `.onnx.json` en una ruta conocida, por ejemplo:
+  `src/robocup_tts/piper-models/en_US-lessac-medium.onnx`
+  y `src/robocup_tts/piper-models/en_US-lessac-medium.onnx.json`.
+
+---
+
+## 🚀 Cómo ejecutar el sistema
+
+### Opción A: Modo completo (Voz + Diálogo + Puente con audio real)
+Requiere micrófono, bocinas y la ruta al modelo de voz Piper:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source .venv/bin/activate
+source install/setup.bash
+
+ros2 launch robocup_bringup robot_launch.py tts_model_path:=/ruta/absoluta/a/tu/voz.onnx
+```
+
+### Opción B: Modo solo texto (sin micrófono ni bocina, para pruebas de lógica y ROS 2)
+Ideal para verificar la máquina de estados y tópicos sin requerir hardware de audio ni el modelo Piper:
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source .venv/bin/activate
+source install/setup.bash
+
+ros2 launch robocup_bringup robot_launch.py audio:=false
+```
+
+Para interactuar en este modo, abre otra terminal con el mismo entorno y publica texto simulando la voz:
+
+1. **Despertar al robot (Wake word):**
+   ```bash
+   ros2 topic pub --once /speech_text std_msgs/msg/String "{data: 'ava'}"
+   ```
+2. **Enviar la orden (Objeto y Ubicación):**
+   ```bash
+   ros2 topic pub --once /speech_text std_msgs/msg/String "{data: 'bring milk from bed'}"
+   ```
+3. **Confirmar la orden:**
+   ```bash
+   ros2 topic pub --once /speech_text std_msgs/msg/String "{data: 'yes'}"
+   ```
+4. **Verificar la salida en los tópicos de navegación y visión:**
+   ```bash
+   ros2 topic echo /command
+   ros2 topic echo /target_object
+   ros2 topic echo /nav_location
+   ```
+
+### Opción C: Demo simulada rápida (Sin ROS ni hardware)
+Para verificar la lógica de integración y el flujo completo en un solo comando:
+```bash
+python3 scripts/demo_simulated.py
+```
+
+---
+
+## 🏗️ Arquitectura del Sistema
 
 ```mermaid
 flowchart LR
-    Mic["Microphone<br/>physical input"] --> ASR["Vosk ASR<br/>robocup_asr"]
-    Model["Bundled Vosk model<br/>Apache-2.0"] --> ASR
-    ASR -->|/speech_text: String| Voice["Historical dialogue<br/>robocup_voice"]
-    Voice -->|/tts_text: String| TTS["Piper TTS<br/>robocup_tts"]
-    Private["Authorized private voice<br/>ONNX and JSON not bundled"] -.-> TTS
-    TTS --> Speaker["Speaker<br/>physical output"]
+    Mic["Micrófono<br/>(Entrada de audio)"] --> ASR["Vosk ASR<br/>(robocup_asr)"]
+    Model["Modelo Vosk<br/>(Empaquetado)"] --> ASR
+    ASR -->|/speech_text: String| Voice["Diálogo / Estados<br/>(robocup_voice)"]
+    Voice -->|/tts_text: String| TTS["Piper TTS<br/>(robocup_tts)"]
+    Private["Modelo Piper ONNX<br/>(Local)"] -.-> TTS
+    TTS --> Speaker["Altavoz / Bocina<br/>(Salida de audio)"]
     TTS -->|/asr_control: Bool| ASR
-    Voice -->|/asr_mode and /asr_grammar: String| ASR
-    Voice -->|/command: String| Bridge["Command bridge<br/>robocup_speech_one"]
-    Bridge -.->|/nav_location: String| Nav["Navigation consumer<br/>external"]
-    Bridge -.->|/target_object: String| Object["Object-recognition consumer<br/>external"]
+    Voice -->|/asr_mode y /asr_grammar: String| ASR
+    Voice -->|/command: String| Bridge["Puente de comandos<br/>(robocup_speech_one)"]
+    Bridge -.->|/nav_location: String| Nav["Navegación / Nav2<br/>(Consumidor externo)"]
+    Bridge -.->|/target_object: String| Object["Reconocimiento de objetos<br/>(Consumidor externo)"]
 ```
 
-`robocup_bringup` starts the four nodes through one launch file.
+### Paquetes incluidos en `src/`
 
-| Package | Executable | Responsibility |
+| Paquete | Ejecutable | Responsabilidad |
 | --- | --- | --- |
-| `robocup_asr` | `vosk_asr_node` | Mono 16 kHz PCM capture, energy filtering, Vosk recognition and grammar/listen control |
-| `robocup_tts` | `tts_node` | Piper synthesis/playback and ASR pause/resume |
-| `robocup_voice` | `voice_node` | Wake words, keyword parsing, confirmation, rejection and historical timeout |
-| `robocup_speech_one` | `speech_one` | Parse the command dictionary and publish object/location names |
-| `robocup_bringup` | `robot_launch.py` | Launch orchestration; optional `audio:=false` text-only mode |
+| `robocup_asr` | `vosk_asr_node` | Captura PCM a 16 kHz mono, filtro dinámico de energía, reconocimiento con Vosk y gramática activa. |
+| `robocup_tts` | `tts_node` | Síntesis y reproducción de voz con Piper, control de pausa/reanudación del ASR para evitar eco. |
+| `robocup_voice` | `voice_node` | Detección de wake words, extracción de palabras clave (objeto/lugar), confirmación, rechazo y timeout (15 s). |
+| `robocup_speech_one` | `speech_one` | Desempaqueta el diccionario de `/command` y despacha `/target_object` y `/nav_location`. |
+| `robocup_bringup` | `robot_launch.py` | Orquestación de lanzamiento general (con argumento opcional `audio:=false`). |
 
-Topics use `std_msgs/msg/String`, except `/asr_control` (`std_msgs/msg/Bool`).
-Queue depth remains 10. `/command` is a Python dictionary string, **not JSON**:
-`{'object': 'milk', 'location': 'bed'}`. The bridge uses `ast.literal_eval`.
+---
 
-## Try the simulated demo — no ROS or hardware
+## 📡 Tópicos principales de ROS 2
 
-Use Python 3.12 from the repository root:
+| Tópico | Tipo | Descripción |
+| --- | --- | --- |
+| `/speech_text` | `std_msgs/msg/String` | Texto reconocido por Vosk o inyectado para pruebas. |
+| `/tts_text` | `std_msgs/msg/String` | Texto que el sintetizador Piper debe reproducir. |
+| `/asr_control` | `std_msgs/msg/Bool` | `False` cuando el robot está hablando (pausa ASR); `True` cuando termina. |
+| `/asr_mode` | `std_msgs/msg/String` | Modo actual: `command`, `confirmation` u `off`. |
+| `/asr_grammar` | `std_msgs/msg/String` | Lista JSON con el vocabulario activo enviado dinámicamente a Vosk. |
+| `/command` | `std_msgs/msg/String` | Comando confirmado en formato diccionario: `{'object': 'milk', 'location': 'bed'}`. |
+| `/target_object` | `std_msgs/msg/String` | Objeto destino extraído para el nodo de visión (ej. `milk`). |
+| `/nav_location` | `std_msgs/msg/String` | Destino extraído para el nodo de navegación (ej. `bed`). |
+
+---
+
+## ⚙️ Personalización de Objetos, Ubicaciones y Palabras de Activación
+
+Puedes modificar los nombres de los objetos y ubicaciones válidos editando el archivo de configuración:
 
 ```bash
-python3.12 -m venv .venv
+src/robocup_voice/config/competition_config.yaml
+```
+
+Valores por defecto:
+- **Wake words:** `havva`, `hava`, `ava`, `java`.
+- **Objetos:** `coke`, `milk`, `noodle`, `yogurt`.
+- **Ubicaciones:** `bed`, `table`, `shelf`, `counter`.
+- **Aliases:** Variaciones fonéticas comunes (ej. `cake` o `cok` mapeados a `coke`).
+
+Si modificas el archivo YAML, vuelve a compilar el paquete correspondiente:
+```bash
+colcon build --packages-select robocup_voice
+source install/setup.bash
+```
+
+---
+
+## 🧪 Pruebas y verificación
+
+Para ejecutar la batería de pruebas automatizadas:
+```bash
+source /opt/ros/jazzy/setup.bash
 source .venv/bin/activate
-python -m pip install -r requirements-demo.txt
-python scripts/demo_simulated.py
+pytest tests/
 ```
 
-The command reuses the existing four-node fixture, checks its assertions and
-prints the topic trace actually recorded by the test. It uses **ROS/Vosk/Piper
-test doubles and synthetic PCM**; it opens no microphone or speaker and uses no
-DDS. It is an engineering demonstration of the control flow, not speech accuracy.
-
-Fixture input: `ava` → `milk bed` → `confirm`. Selected observed output:
-
-```json
-{
-  "mode": "simulated",
-  "ROS_DDS": false,
-  "physical_audio": false,
-  "recognition_and_synthesis": "test doubles",
-  "observed_topics": {
-    "/speech_text": ["ava", "milk bed", "yes"],
-    "/command": ["{'object': 'milk', 'location': 'bed'}"],
-    "/target_object": ["milk"],
-    "/nav_location": ["bed"]
-  },
-  "final_dialogue_state": "idle"
-}
+Para probar el flujo de texto real sobre ROS 2 Jazzy y DDS sin periféricos de audio:
+```bash
+python3 scripts/verify_ros_flow.py
 ```
 
-The simulated ASR maps the confirmation fixture `confirm` to `yes` before Voice
-receives it. [Complete captured trace](docs/demo-output.json).
-A CLI regression test checks the demo from a different working directory.
+---
 
-## Historical implementation vs reconstruction
+## ❓ Preguntas frecuentes y solución de problemas
 
-Source snapshot: `9952f30a2775cede3d69c0dc34962ff609addead`, April 16, 2026.
-The exact imported text is preserved in `reference/snapshot/`, excluded from
-colcon with `reference/COLCON_IGNORE`. It is evidence, not a second runnable
-workspace. The original Git history was not copied.
-
-| Layer | What is retained or changed |
-| --- | --- |
-| Historical | Vosk/Piper flow, dictionary, parser, topics, separate bridge outputs, rejection without a new wake word |
-| Portability | Complete package declarations, pinned reconstruction dependencies, installed resource lookup, model-path parameters and optional text-only launch |
-| F01 correction | Reject nonstring object/location fields instead of crashing the bridge |
-| F02 correction | Use the supplied Piper voice's sample rate instead of always 22,050 Hz |
-| Portfolio preparation | Documentation, explicit author/result evidence, Mermaid diagram and a fixture-based demo; no active node changes |
-
-**Known legacy behavior:** more than 15 seconds without confirmation automatically
-publishes the command. Silence is not explicit consent. The historical ASR drops
-literal recognized `yes` in confirmation mode; spoken `confirm`, `correct` or
-`affirmative` are mapped to `yes`. Direct `/speech_text` injection of `yes`
-bypasses that gap. These behaviors are preserved and tested, not silently fixed.
-
-April configuration: objects `coke`, `milk`, `noodle`, `yogurt`; locations `bed`,
-`table`, `shelf`, `counter`. [Changes and limitations](docs/CHANGES.md).
-
-## What has actually been verified
-
-[Verification evidence](docs/VALIDATION.md) separates local packaging, simulation,
-real-engine checks and pending runtime/hardware work. The competition result is
-separate owner-reported evidence; it does not certify these checks.
-
-| Verification level | Scope/status |
-| --- | --- |
-| Python/colcon packaging | Five packages build and install on Python 3.12 without a ROS underlay |
-| Simulated behavior | Historical comparisons, parser/confirmation/timeout, ASR/TTS control, bridge, malformed inputs and full fixture flow; see current counts in the evidence report |
-| Installed assets | Five resource markers, four entry points, YAML, launch and verified model/notice bytes |
-| Real Vosk | Model load and one second of synthetic silence; no spoken accuracy claim |
-| Real Piper | Import/chunk API verified; voice loading, synthesis and playback remain unverified |
-| Real ROS 2 / DDS | Pending; host ROS is absent and Docker socket access is denied |
-| Physical robot | Microphone, speaker, echo, noise/distance and navigation consumer behavior remain unverified |
-
-No continuous CI badge or fully tested robot claim is presented.
-
-## ROS 2 setup and real voice operation
-
-Reconstruction target: **Ubuntu 24.04 / Python 3.12 / ROS 2 Jazzy**. The competition
-ROS distro and installed versions remain unknown. Pins are reconstruction choices;
-Piper `1.4.2` is not asserted to be the competition dependency version.
-
-See [setup commands](docs/SETUP.md) for native ROS, Docker, text-only DDS operation
-and an authorized private Piper model. Run `bash scripts/verify.sh` after sourcing
-Jazzy and the dependency environment. See the [physical checklist](docs/PHYSICAL_CHECKLIST.md)
-for checks that cannot be replaced by simulation or model enumeration.
-
-## Author, licensing and model provenance
-
-**Hiram Rafael Pérez Ibarra** developed all project-owned code in the five voice
-packages, as explicitly confirmed by the author. [Authorship](AUTHORS.md).
-Galu Robotics is the requested portfolio presentation, not a new claim of
-ownership over third-party code/models.
-
-**MIT applies to that own code.** Package manifests declare MIT, with the ASR
-package also declaring Apache-2.0 for its bundled Vosk model. See [license scope](LICENSE.md)
-and [adoption record](docs/LICENSING.md).
-
-- Vosk API and bundled `vosk-model-small-en-us-0.15`: Apache-2.0. The model's 14
-  original files were verified against the official ZIP; LICENSE/NOTICE are installed.
-- Piper `1.4.2` runtime: GPL-3.0-or-later. MIT for original project code does not
-  remove Piper or native-component obligations for a combined runtime/container.
-- Lessac `en_US-lessac-medium` ONNX and JSON: omitted because redistribution
-  permission has not been established. No automatic voice download or substitute.
-- OSRF template references: original Apache-2.0 headers retained.
-
-[Third-party notices](THIRD_PARTY_NOTICES.md) · [Provenance](docs/PROVENANCE.md) ·
-[License scope](LICENSE.md). Do not present every file or a combined runtime as MIT-only.
-
-## Review map
-
-- `src/`: five adapted packages; no later HRI/2027 package.
-- `reference/snapshot/`: immutable historical text and its attribution.
-- `tests/` and `scripts/`: repeatable simulated/demo, installation and runtime checks.
-- `docs/`: evidence, changes, competition statement, license scope and draft
-  [GitHub metadata](docs/GITHUB_PRESENTATION.md).
-- `FILE_MANIFEST.json`: current candidate-source inventory, excluding local builds,
-  caches, private settings/models, recordings and validation artifacts.
-
-[Publication readiness and blocking items](docs/PUBLICATION_READINESS.md).
+- **Error: `FileNotFoundError: Piper voice weights are intentionally not bundled...`**
+  - **Causa:** Estás ejecutando en modo con audio sin haber especificado la ruta al modelo ONNX de Piper.
+  - **Solución:** Descarga una voz de Piper y pasa el argumento `tts_model_path:=/ruta/a/tu/voz.onnx`, o bien ejecuta con `audio:=false` si solo vas a probar la lógica de ROS.
+- **Error: `ModuleNotFoundError: No module named 'piper'` o `vosk`**:
+  - Asegúrate de haber activado el entorno virtual (`source .venv/bin/activate`) donde instalaste `requirements-dev.txt`.
+- **Audio y micrófono en Linux:**
+  - Verifica que tu micrófono y altavoz funcionen con:
+    ```bash
+    python3 -c "import sounddevice as sd; print(sd.query_devices())"
+    ```
