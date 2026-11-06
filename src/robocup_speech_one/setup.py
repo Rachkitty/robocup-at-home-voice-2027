@@ -19,4 +19,5 @@ setup(
     license='MIT',
     extras_require={'test': ['pytest>=8,<9']},
     entry_points={'console_scripts': ['speech_one = robocup_speech_one.speech_one:main']},
+    
 )

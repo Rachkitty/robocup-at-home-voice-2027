@@ -32,9 +32,6 @@ class TTSNode(Node):
             10
         )
 
-        # Configuración audio (opcional)
-        # sd.default.device = 0
-
         # Cargar modelo Piper
         self.declare_parameter('model_path', '')
         configured_path = self.get_parameter('model_path').value
@@ -51,17 +48,6 @@ class TTSNode(Node):
         self.voice = PiperVoice.load(self.model_path)
         self.get_logger().info("Piper TTS Ready")
 
-        # Saludo inicial
-        self.greeted = False
-        self.greeting_timer = self.create_timer(2.0, self.greeting_callback)
-
-    def greeting_callback(self):
-        if not self.greeted:
-            msg = String()
-            msg.data = "Hello, my name is Havva, say my name if you need my help, and wait for my response before you ask me a petition"
-            self.speak_callback(msg)
-            self.greeted = True
-            self.greeting_timer.cancel()
 
     # CALLBACK PRINCIPAL
     def speak_callback(self, msg):
@@ -129,9 +115,10 @@ def main(args=None):
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
-
-    node.destroy_node()
-    rclpy.shutdown()
+    finally:
+        node.destroy_node()
+        if rclpy.ok():  # Esto evita el error rojo (RCLError) al cerrar el programa
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

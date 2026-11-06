@@ -1,25 +1,29 @@
+# Archivo central de conocimientos
 wake_words:
-  - havva
-  - hava
-  - ava
-  - java
+  - "havva"
+  - "hava"
+  - "ava"
+  - "java"
 
 # Objetos
 objects:
-  - coke
-  - milk
-  - noodle
-  - yogurt
+  - "coke"
+  - "milk"
+  - "noodle"
+  - "yogurt"
 
 # Locaciones
 locations:
-  - bed
-  - table
-  - shelf
-  - counter
+  - "bed"
+  - "table"
+  - "shelf"
+  - "counter"
+  - "kitchen"
+  - "living room"
+  - "bedroom"
 
-# Aliases
+# Aliases (variaciones de pronunciación)
 aliases:
   coke:
-    - cake
-    - cok
+    - "cake"
+    - "cok"
