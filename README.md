@@ -220,12 +220,14 @@ python3 scripts/verify_ros_flow.py
 ## ❓ Preguntas frecuentes y solución de problemas
 
 - **Error: `FileNotFoundError: Piper voice weights are intentionally not bundled...`**
-  - **Causa:** Estás ejecutando en modo con audio sin haber especificado la ruta al modelo ONNX de Piper.
-  - **Solución:** Descarga una voz de Piper y pasa el argumento `tts_model_path:=/ruta/a/tu/voz.onnx`, o bien ejecuta con `audio:=false` si solo vas a probar la lógica de ROS.
+- **Causa:** Estás ejecutando en modo con audio sin haber especificado la ruta al modelo ONNX de Piper.
+- **Solución:** Descarga una voz de Piper y pasa el argumento `tts_model_path:=/ruta/a/tu/voz.onnx`, o bien ejecuta con `audio:=false` si solo vas a probar la lógica de ROS.
 - **Error: `ModuleNotFoundError: No module named 'piper'` o `vosk`**:
-  - Asegúrate de haber activado el entorno virtual (`source .venv/bin/activate`) donde instalaste `requirements-dev.txt`.
+- Asegúrate de haber activado el entorno virtual (`source .venv/bin/activate`) donde instalaste `requirements-dev.txt`.
 - **Audio y micrófono en Linux:**
-  - Verifica que tu micrófono y altavoz funcionen con:
+- Verifica que tu micrófono y altavoz funcionen con:
     ```bash
     python3 -c "import sounddevice as sd; print(sd.query_devices())"
     ```
+
+, añadele las mejoras que le implementamos, pero la dems informacion que sigue intacta conservala 
